@@ -12,6 +12,7 @@ export default {
   },
   darkMode: "class",
   plugins: [
+    require('tailwind-scrollbar-hide'),
     nextui({
       prefix: "nextui", // prefix for themes variables
       addCommonColors: false, // override common colors (e.g. "blue", "green", "pink").

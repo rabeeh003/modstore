@@ -1,79 +1,91 @@
 import React from 'react'
-import { Avatar } from "@nextui-org/react";
-import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import AvatarComponent from './components/AvatarComponent';
+import AppSlider from './components/AppSlider';
+import Banner from './components/Banner';
 
 function Home() {
     const list = [
         {
             title: "Orange",
-            img: "/images/fruit-1.jpeg",
+            img: "https://cdn-teams-slug.flaticon.com/google.jpg",
             price: "$5.50",
         },
         {
             title: "Tangerine",
-            img: "/images/fruit-2.jpeg",
+            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
             price: "$3.00",
         },
         {
             title: "Raspberry",
-            img: "/images/fruit-3.jpeg",
+            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
             price: "$10.00",
         },
         {
             title: "Lemon",
-            img: "/images/fruit-4.jpeg",
+            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
             price: "$5.30",
         },
         {
             title: "Avocado",
-            img: "/images/fruit-5.jpeg",
+            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
             price: "$15.70",
         },
         {
             title: "Lemon 2",
-            img: "/images/fruit-6.jpeg",
+            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
             price: "$8.00",
         },
         {
             title: "Banana",
-            img: "/images/fruit-7.jpeg",
+            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
             price: "$7.50",
         },
         {
             title: "Watermelon",
-            img: "/images/fruit-8.jpeg",
+            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
             price: "$12.20",
         },
     ];
 
     return (
         <>
-            <div className="container mx-auto gap-2 grid grid-cols-2 sm:grid-cols-4">
-                {list.map((item, index) => (
-                    <Card shadow="sm" key={index} isPressable onPress={() => console.log("item pressed")}>
-                        <CardBody className="overflow-visible p-0">
-                            <Image
-                                shadow="sm"
-                                radius="lg"
-                                width="100%"
-                                alt={item.title}
-                                className="w-full object-cover h-[140px]"
-                                src={item.img}
-                            />
-                        </CardBody>
-                        <CardFooter className="text-small justify-between">
-                            <b>{item.title}</b>
-                            <p className="text-default-500">{item.price}</p>
-                        </CardFooter>
-                    </Card>
-                ))}
+        <Banner/>
+        <div className='container mx-auto px-10 mt-4'>
+            <AppSlider list={list} title={'Android mods'} />
+            <div className='flex flex-wrap m-auto justify-between'>
+                <AvatarComponent title='Games' />
+                <AvatarComponent />
+                <div className='hidden md:flex justify-between'>
+                <AvatarComponent title='Tools' />
+                </div>
+                <div className='hidden md:flex justify-between'>
+                <AvatarComponent title='Hacking' />
+                </div>
+                <div className='hidden lg:flex justify-between'>
+                    <AvatarComponent />
+                </div>
+                <div className='hidden lg:flex justify-between'>
+                    <AvatarComponent />
+                </div>
             </div>
-            <div className="flex gap-4 items-center">
-                <Avatar isBordered color='primary' radius="full" src="https://i.pravatar.cc/150?u=a04258114e29026708c" />
-                <Avatar isBordered color='warning' radius="lg" src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
-                <Avatar isBordered color='secondary' radius="md" src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
-                <Avatar isBordered color='success' radius="sm" src="https://i.pravatar.cc/150?u=a04258a2462d826712d" />
+            <AppSlider list={list} title={'Windows mods'} />
+            <div className='flex flex-wrap m-auto justify-between'>
+                <AvatarComponent title='Games' />
+                <AvatarComponent />
+                <div className='hidden md:flex justify-between'>
+                <AvatarComponent title='Tools' />
+                </div>
+                <div className='hidden md:flex justify-between'>
+                <AvatarComponent title='Hacking' />
+                </div>
+                <div className='hidden lg:flex justify-between'>
+                    <AvatarComponent title='Racing' />
+                </div>
+                <div className='hidden lg:flex justify-between'>
+                    <AvatarComponent />
+                </div>
             </div>
+        </div>
         </>
     );
 }

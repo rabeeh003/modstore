@@ -9,7 +9,7 @@ function App() {
   const them = useSelector(state => state.them.currentThem)
 
   return (
-    <div className={`${them} h-[100vh] bg-background text-foreground`}>
+    <div className={`${them} h-full min-h-[100vh] bg-background text-foreground`}>
       <Routes>
         <Route path='/' element={<UserNavbar />}>
           <Route index element={<Home />}/>
