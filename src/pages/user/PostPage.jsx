@@ -1,8 +1,19 @@
-import { Button, Image } from '@nextui-org/react'
-import { Download } from 'lucide-react'
-import React from 'react'
+import { Image } from '@nextui-org/react'
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
+import { Download, NotebookPen } from 'lucide-react'
+import React, { useState } from 'react'
 
 function PostPage() {
+    const images = [
+        "https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(70).webp",
+        "https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(72).webp",
+        "https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp",
+        "https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(74).webp",
+        "https://an1.com/uploads/screenshots/6976/thumbs/my-little-universe-816638.webp",
+        "https://play-lh.googleusercontent.com/W7J_rhJYWt65XQHaZ7N_6Nptu0wC6n4k9WX59qg46KRpe9b5I1LarJqZ7L-Uu9okgA=w526-h296-rw"
+    ];
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [currentImage, setCurrentImage] = useState(2)
     return (
         <div className='container max-w-[1200px] mx-auto px-5 sm:px-10 mt-7'>
             <div className='sm:flex'>
@@ -22,11 +33,61 @@ function PostPage() {
                         </Button>
                     </div>
                 </div>
-                <div>
-                    <h1 className='font-mono font-semibold text-2xl sm:text-4xl pt-4 sm:pl-10'>Download My Little Universe (MOD, Unlimited Resources) 2.10.0 free on android</h1>
-                    <p></p>
+                <div className='pt-4 sm:pl-10'>
+                    <h1 className='font-mono font-semibold text-2xl sm:text-3xl md:text-4xl'>Download My Little Universe (MOD, Unlimited Resources) 2.10.0 free on android</h1>
+                    <NotebookPen className='mt-5' />
+                    <p className='sm:text-[18px] text-justify '>a game in which you can feel like God and build your own planet. Pick up a pickaxe or an axe and collect useful materials, but to build new islands you will need not only wood and stones, but also many different fossil metals. As you build new cities, you can open businesses and repopulate empty islands. Keep your planet safe from enemies who will regularly attack civilians.</p>
                 </div>
             </div>
+            <div>
+                <div className="mt-5 mx-auto px-5 py-2 lg:px-32 lg:pt-24">
+                    <div className="m-1 flex flex-wrap md:-m-2 justify-center">
+                        <Image
+
+                            src={images[currentImage]}
+                            alt='image'
+                            className='w-full max-w-[600px] h-full max-h-[600px]'
+                        />
+                        <div className='flex'>
+                            {images.map((image, index) => (
+                                <div className="w-1/4 p-1 md:p-2 max-h-[120px]" key={index} onClick={() => setCurrentImage(index)}>
+                                    <img
+                                        alt="gallery"
+                                        className="block h-full w-full rounded-lg object-cover object-center"
+                                        src={image}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <Button onPress={onOpen}>Open Modal</Button>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="bg-current" size={"5xl"} backdrop={"blur"} placement='bottom-center sm:top-center ' >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalHeader className="flex flex-col gap-1 text-success-500">Modal Title</ModalHeader>
+                            <ModalBody>
+                                <div className='m-auto'>
+                                    <Image
+                                        src='https://www.gstatic.com/play/games/carousel/com.more.dayzsurvival.gp-497d114e.jpg'
+                                        className='w-full '
+                                    />
+                                </div>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="danger" variant="light" onPress={onClose}>
+                                    Close
+                                </Button>
+                                <Button color="primary" onPress={onClose}>
+                                    Action
+                                </Button>
+                            </ModalFooter>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
         </div>
     )
 }
