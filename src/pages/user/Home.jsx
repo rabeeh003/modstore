@@ -50,8 +50,8 @@ function Home() {
     return (
         <>
         <Banner/>
-        <div className='container mx-auto px-10 mt-4'>
-            <AppSlider list={list} title={'Android mods'} />
+        <div className='container mx-auto px-5 sm:px-10 mt-4'>
+            <AppSlider list={list} title={'Android mods'} idd={'android'} />
             <div className='flex flex-wrap m-auto justify-between'>
                 <AvatarComponent title='Games' />
                 <AvatarComponent />
@@ -68,7 +68,7 @@ function Home() {
                     <AvatarComponent />
                 </div>
             </div>
-            <AppSlider list={list} title={'Windows mods'} />
+            <AppSlider list={list} title={'Windows mods'} idd={"windo"}/>
             <div className='flex flex-wrap m-auto justify-between'>
                 <AvatarComponent title='Games' />
                 <AvatarComponent />

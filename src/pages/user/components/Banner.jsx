@@ -12,15 +12,14 @@ function Banner() {
                 backgroundPosition: 'center',
             }}>
 
-            <div className='w-3/4 m-auto flex flex-col justify-center items-center h-full'>
+            <div className='w-4/4 px-2 md:w-2/4 m-auto flex flex-col justify-center items-center h-full'>
                 <div className='relative left-0 right-0'>
-            <h1 className="z-10 fixed blur-lg  text-white bg-clip-text text-3xl font-extrabold sm:text-5xl">Unlock Limitless <br /> Possibilities Here</h1>
-            <h1 className="z-20  text-white stroke-black stroke-2 text-center bg-clip-text text-3xl font-extrabold sm:text-5xl">Unlock Limitless <br /> Possibilities Here</h1>
+                    <h1 className="z-10 fixed blur-lg  text-white bg-clip-text text-3xl font-extrabold sm:text-5xl">Unlock Limitless <br /> Possibilities Here</h1>
+                    <h1 className="z-20  text-white stroke-black stroke-2 text-center bg-clip-text text-3xl font-extrabold sm:text-5xl">Unlock Limitless <br /> Possibilities Here</h1>
 
                 </div>
-
                 <Input
-                    label="Search"
+                    // label="Search"
                     // isClearable
                     radius="lg"
                     classNames={{
@@ -29,9 +28,11 @@ function Banner() {
                             "bg-transparent",
                             "text-black/90 dark:text-white/90",
                             "placeholder:text-default-700/50 dark:placeholder:text-white/60",
+                            "h-20"
                         ],
                         innerWrapper: "bg-transparent",
                         inputWrapper: [
+                            "px-3 py-5",
                             "shadow-xl",
                             "bg-default-200/50",
                             "dark:bg-default/60",
@@ -42,9 +43,10 @@ function Banner() {
                             "group-data-[focused=true]:bg-default-200/50",
                             "dark:group-data-[focused=true]:bg-default/60",
                             "!cursor-text",
+                            "mt-4",
                         ],
                     }}
-                    placeholder="Type to search..."
+                    placeholder="Find your application..."
                     startContent={
                         <SearchIcon className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
                     }

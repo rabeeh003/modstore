@@ -5,7 +5,7 @@ import { Switch } from "@nextui-org/react";
 import { Moon, MoonStar, SunMoon } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLight, setDark } from '../../../redux/Them.jsx';
-import { Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 
 function UserNavbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -43,9 +43,9 @@ function UserNavbar() {
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem isActive>
-          <Link color="foreground" href="#">
+          <NavLink color="foreground" to={'/'}>
             Home
-          </Link>
+          </NavLink>
         </NavbarItem>
         <NavbarItem >
           <Link color="foreground" href="#" >

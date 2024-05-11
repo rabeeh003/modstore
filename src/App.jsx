@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import UserNavbar from './pages/user/components/UserNavbar';
 import Home from './pages/user/Home';
 import { Route, Routes } from 'react-router-dom';
+import PostPage from './pages/user/PostPage';
 
 function App() {
   const them = useSelector(state => state.them.currentThem)
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path='/' element={<UserNavbar />}>
           <Route index element={<Home />}/>
+          <Route path='/appid' element={<PostPage/>}/>
         </Route>
       </Routes>
     </div>
