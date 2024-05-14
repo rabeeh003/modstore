@@ -1,7 +1,7 @@
-import { Image } from '@nextui-org/react'
+import { CircularProgress, Image } from '@nextui-org/react'
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
 import { Download, NotebookPen } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function PostPage() {
     const images = [
@@ -14,8 +14,24 @@ function PostPage() {
     ];
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [currentImage, setCurrentImage] = useState(2)
+
+    const [value, setValue] = React.useState(0);
+    const [seconds, setSeconds] = useState(10);
+    const [isActive, setIsActive] = useState(false);
+
+    useEffect(() => {
+        let intervalId;
+        if (isActive && seconds < 100) {
+            intervalId = setInterval(() => {
+                setSeconds(prevSeconds => prevSeconds + 10);
+                setValue((v) => (v >= 100 ? 0 : v + 10));
+            }, 1400);
+        }
+        return () => clearInterval(intervalId);
+    }, [seconds, isActive, value]);
+
     return (
-        <div className='container max-w-[1200px] mx-auto px-5 sm:px-10 mt-7'>
+        <div className='container max-w-[1200px] mx-auto px-5 sm:px-10 mt-7 pb-10'>
             <div className='sm:flex'>
                 <div className='sm:sticky top-24 max-h-[350px] grid justify-center sm:min-w-[200px] md:min-w-[300px]'>
                     <Image
@@ -28,7 +44,7 @@ function PostPage() {
                         {/* <Button isIconOnly color="danger" aria-label="Like">
                             <Share2Icon />
                         </Button> */}
-                        <Button color="success" endContent={<Download />}>
+                        <Button onPress={onOpen} onClick={() => setIsActive(true)} color="success" endContent={<Download />}>
                             Download
                         </Button>
                     </div>
@@ -62,12 +78,11 @@ function PostPage() {
                     </div>
                 </div>
             </div>
-            <Button onPress={onOpen}>Open Modal</Button>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="bg-current" size={"5xl"} backdrop={"blur"} placement='bottom-center sm:top-center ' >
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="bg-background" size={"5xl"} backdrop={"blur"} placement='bottom-center sm:top-center ' >
                 <ModalContent>
                     {(onClose) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1 text-success-500">Modal Title</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1 text-success-500">Download</ModalHeader>
                             <ModalBody>
                                 <div className='m-auto'>
                                     <Image
@@ -75,15 +90,25 @@ function PostPage() {
                                         className='w-full '
                                     />
                                 </div>
+                                {seconds != 100 ? (
+                                    <div className='m-auto'>
+                                        {/* <p>{seconds}</p> */}
+                                        <CircularProgress
+                                            aria-label="Loading..."
+                                            size="lg"
+                                            value={seconds}
+                                            color="warning"
+                                            showValueLabel={true}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className='w-full text-center'>
+                                        <Button variant='flat' color="success">
+                                            Download
+                                        </Button>
+                                    </div>
+                                )}
                             </ModalBody>
-                            <ModalFooter>
-                                <Button color="danger" variant="light" onPress={onClose}>
-                                    Close
-                                </Button>
-                                <Button color="primary" onPress={onClose}>
-                                    Action
-                                </Button>
-                            </ModalFooter>
                         </>
                     )}
                 </ModalContent>
