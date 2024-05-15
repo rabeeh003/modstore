@@ -1,5 +1,6 @@
 import { CircularProgress, Image } from '@nextui-org/react'
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
+import axios from 'axios';
 import { Download, NotebookPen } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 

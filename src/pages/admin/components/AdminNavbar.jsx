@@ -7,6 +7,7 @@ import { setLight, setDark } from '../../../redux/Them.jsx';
 import { NavLink, Outlet } from 'react-router-dom';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import CreatePost from './post/CreatePost.jsx';
+import { setCleanAdmin } from '../../../redux/Admin.jsx';
 
 function AdminNavbar() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -119,6 +120,16 @@ function AdminNavbar() {
                 size="lg"
               >
                 Advertisement
+              </span>
+            </NavbarMenuItem>
+          </NavLink>
+          <NavLink onClick={()=>dispatch(setCleanAdmin())}>
+            <NavbarMenuItem className='bg-background text-foreground-900 bg-opacity-30 rounded-lg py-2'>
+              <span
+                className="w-full px-3 text-danger-500"
+                size="lg"
+              >
+                Logout
               </span>
             </NavbarMenuItem>
           </NavLink>

@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Tabs, Tab, Card, CardBody, CardHeader, Avatar } from "@nextui-org/react";
 import { AppWindow, EllipsisVertical, LayoutGrid, Rss } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import listData from '../../assets/Applist.json'
 import ActionDrop from './components/ActionDrop';
+import axios from 'axios';
 
 function PostList() {
-
+  useEffect(() => {
+    console.log("start to fetch data ");
+    axios.get("http://127.0.0.1:8000/applications/").then((res) => console.log("apps", res)).catch((err) => console.log(err))
+  }, [])
   return (
     <div className='grid justify-center'>
       <div className="m-auto flex w-full overflow-y-hidden flex-col">
