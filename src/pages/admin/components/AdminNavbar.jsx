@@ -54,8 +54,8 @@ function AdminNavbar() {
             </NavLink>
           </NavbarItem>
           <NavbarItem>
-            <NavLink color="foreground" to={''}>
-              Windows
+            <NavLink color="foreground" to={'advertisement'}>
+              Advertisement
             </NavLink>
           </NavbarItem>
         </NavbarContent>
@@ -111,21 +111,21 @@ function AdminNavbar() {
               </span>
             </NavbarMenuItem>
           </NavLink>
-          <NavLink to={''}>
+          <NavLink to={'advertisement'}>
             <NavbarMenuItem className='bg-background text-foreground-900 bg-opacity-30 rounded-lg py-2'>
               <span
                 color={"foreground"}
                 className="w-full px-3"
                 size="lg"
               >
-                windows
+                Advertisement
               </span>
             </NavbarMenuItem>
           </NavLink>
         </NavbarMenu>
       </Navbar>
 
-      <CreatePost name="Create Post" isOpen={androidOpen}  onClose={handleCloseAndroid} />
+      <CreatePost name="Create Post" isOpen={androidOpen} onClose={handleCloseAndroid} />
       <Outlet />
     </>
   );

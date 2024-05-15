@@ -6,7 +6,7 @@ import listData from '../../assets/Applist.json'
 import ActionDrop from './components/ActionDrop';
 
 function PostList() {
-  
+
   return (
     <div className='grid justify-center'>
       <div className="m-auto flex w-full overflow-y-hidden flex-col">
@@ -27,7 +27,7 @@ function PostList() {
                     <Card>
                       <CardHeader className='flex justify-between'>
                         <Avatar src={data.img} radius='lg' className="w-20 h-20 text-large" />
-                        <ActionDrop/>
+                        <ActionDrop />
                       </CardHeader>
                       <CardBody>
                         <span className='text-xl font-bold'>{data.title}</span>
@@ -46,7 +46,25 @@ function PostList() {
                 <span>Windows</span>
               </div>
             }
-          />
+          >
+            <div className='fixed w-full max-h-[87vh] overflow-scroll scroll-smooth scrollbar-hide left-0'>
+              <div className="container m-auto gap-3 py-5 pb-8 flex flex-wrap">
+                {listData.map((data, index) => (
+                  <div key={index} className='m-auto flex-none w-full px-4 md:max-w-[420px] '>
+                    <Card>
+                      <CardHeader className='flex justify-between'>
+                        <Avatar src={data.img} radius='lg' className="w-20 h-20 text-large" />
+                        <ActionDrop />
+                      </CardHeader>
+                      <CardBody>
+                        <span className='text-xl font-bold'>{data.title}</span>
+                      </CardBody>
+                    </Card>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Tab>
           <Tab
             key="videos"
             title={

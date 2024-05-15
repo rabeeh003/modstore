@@ -9,6 +9,7 @@ import Category from './pages/user/Category';
 import AdminNavbar from './pages/admin/components/AdminNavbar';
 import AdminHome from './pages/admin/AdminHome';
 import PostList from './pages/admin/PostList';
+import Advertisement from './pages/admin/Advertisement';
 
 function App() {
   const them = useSelector(state => state.them.currentThem)
@@ -25,6 +26,7 @@ function App() {
         <Route path='/admin' element={<AdminNavbar />}>
           <Route index element={<AdminHome />}/>
           <Route path='post-list' element={<PostList/>}/>
+          <Route path='advertisement' element={<Advertisement/>}/>
         </Route>
       </Routes>
     </div>
