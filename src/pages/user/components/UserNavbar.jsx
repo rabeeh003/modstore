@@ -1,8 +1,7 @@
 import React from 'react'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button } from "@nextui-org/react";
-import { AcmeLogo } from "./AcmeLogo.jsx";
 import { Switch } from "@nextui-org/react";
-import { Moon, MoonStar, SunMoon } from 'lucide-react';
+import { MoonStar, SunMoon } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLight, setDark } from '../../../redux/Them.jsx';
 import { NavLink, Outlet } from 'react-router-dom';

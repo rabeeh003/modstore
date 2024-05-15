@@ -1,0 +1,42 @@
+[
+    {
+        "title": "Orange",
+        "img": "https://cdn-teams-slug.flaticon.com/google.jpg",
+        "price": "$5.50"
+    },
+    {
+        "title": "Tangerine",
+        "img": "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
+        "price": "$3.00"
+    },
+    {
+        "title": "Raspberry",
+        "img": "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
+        "price": "$10.00"
+    },
+    {
+        "title": "Lemon",
+        "img": "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
+        "price": "$5.30"
+    },
+    {
+        "title": "Avocado",
+        "img": "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
+        "price": "$15.70"
+    },
+    {
+        "title": "Lemon 2",
+        "img": "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
+        "price": "$8.00"
+    },
+    {
+        "title": "Banana",
+        "img": "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
+        "price": "$7.50"
+    },
+    {
+        "title": "Watermelon",
+        "img": "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
+        "price": "$12.20"
+    }
+]

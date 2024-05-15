@@ -6,6 +6,9 @@ import Home from './pages/user/Home';
 import { Route, Routes } from 'react-router-dom';
 import PostPage from './pages/user/PostPage';
 import Category from './pages/user/Category';
+import AdminNavbar from './pages/admin/components/AdminNavbar';
+import AdminHome from './pages/admin/AdminHome';
+import PostList from './pages/admin/PostList';
 
 function App() {
   const them = useSelector(state => state.them.currentThem)
@@ -15,9 +18,13 @@ function App() {
       <Routes>
         <Route path='/' element={<UserNavbar />}>
           <Route index element={<Home />}/>
-          <Route path='/appid' element={<PostPage/>}/>
-          <Route path='/android' element={<Category tab="Android"/>}/>
-          <Route path='/windows' element={<Category tab="Windows"/>}/>
+          <Route path='appid' element={<PostPage/>}/>
+          <Route path='android' element={<Category tab="Android"/>}/>
+          <Route path='windows' element={<Category tab="Windows"/>}/>
+        </Route>
+        <Route path='/admin' element={<AdminNavbar />}>
+          <Route index element={<AdminHome />}/>
+          <Route path='post-list' element={<PostList/>}/>
         </Route>
       </Routes>
     </div>

@@ -2,57 +2,15 @@ import React, { useEffect } from 'react'
 import AvatarComponent from './components/AvatarComponent';
 import AppSlider from './components/AppSlider';
 import Banner from './components/Banner';
+import listData from '../../assets/Applist.json'
 
 function Home() {
-
-    const list = [
-        {
-            title: "Orange",
-            img: "https://cdn-teams-slug.flaticon.com/google.jpg",
-            price: "$5.50",
-        },
-        {
-            title: "Tangerine",
-            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
-            price: "$3.00",
-        },
-        {
-            title: "Raspberry",
-            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
-            price: "$10.00",
-        },
-        {
-            title: "Lemon",
-            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
-            price: "$5.30",
-        },
-        {
-            title: "Avocado",
-            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
-            price: "$15.70",
-        },
-        {
-            title: "Lemon 2",
-            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
-            price: "$8.00",
-        },
-        {
-            title: "Banana",
-            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
-            price: "$7.50",
-        },
-        {
-            title: "Watermelon",
-            img: "https://icon-library.com/images/ios-7-app-icon/ios-7-app-icon-6.jpg",
-            price: "$12.20",
-        },
-    ];
 
     return (
         <>
             <Banner />
             <div className='container mx-auto px-5 sm:px-10 mt-4'>
-                <AppSlider list={list} title={'Android mods'} idd={'android'} route={'/android'} />
+                <AppSlider list={listData} title={'Android mods'} idd={'android'} route={'/android'} />
                 <div className='flex flex-wrap m-auto justify-between'>
                     <AvatarComponent title='Games' />
                     <AvatarComponent />
@@ -69,7 +27,7 @@ function Home() {
                         <AvatarComponent />
                     </div>
                 </div>
-                <AppSlider list={list} title={'Windows mods'} idd={"windo"} route={'/windows'} />
+                <AppSlider list={listData} title={'Windows mods'} idd={"windo"} route={'/windows'} />
                 <div className='flex flex-wrap m-auto justify-between'>
                     <AvatarComponent title='Games' />
                     <AvatarComponent />
