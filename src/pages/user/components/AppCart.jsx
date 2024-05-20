@@ -11,13 +11,13 @@ function AppCart({item}) {
                             isBlurred
                             radius="lg"
                             width="100%"
-                            alt={item.title}
+                            alt={item?.name}
                             className="w-full max-w-[80px] md:max-w-[140px] object-cover h-[80px] md:h-[140px]"
-                            src={item.img}
+                            src={item?.icon}
                         />
                         <div className=''>
-                            <b className='text-md md:text-lg'>{item.title}</b>
-                            <p className="text-default-500">{item.price}</p>
+                            <b className='text-sm md:text-lg text-wrap max-w-[80px] md:max-w-[140px]'>{item?.name}</b>
+                            {/* <p className="text-default-500">{item.price}</p> */}
                         </div>
                     </div>
                 </CardBody>

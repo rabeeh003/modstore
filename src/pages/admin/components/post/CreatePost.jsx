@@ -1,18 +1,22 @@
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, Textarea } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
-import { FileInputReact } from 'file-input-react'
 import FileInput from "../FileInput";
-import { Delete, DeleteIcon, LucideDelete, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
+import Axios from "../../utils/axios";
+import Labels from "./Labels";
+import { BaseUrl } from "../../utils/constData";
+import axios from "axios";
 
 function CreatePost({ isOpen, onClose, name, data }) {
     if (!isOpen) return null;
 
     const [appName, setAppName] = useState("");
-    const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState(""); // Define category state
     const [icon, setIcon] = useState(null);
     const [description, setDescription] = useState("");
-    const [screenshots, setScreenshots] = useState([]);
+    // const [screenshots, setScreenshots] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
+    const [groupSelected, setGroupSelected] = useState([]);
 
     const handleIconChange = (e) => {
         const file = e.target.files[0];
@@ -22,14 +26,50 @@ function CreatePost({ isOpen, onClose, name, data }) {
         setIcon(null);
     };
 
-    useEffect(()=>{
-        setAppName(data?.appName)
-        // .... add all to that
-    },[])
+    useEffect(() => {
+        if (data) {
+            setAppName(data.appName || "");
+            setCategory(data.category || "");
+            setDescription(data.description || "");
+            setGroupSelected(data.labels || []);
+        }
+    }, [data]);
+    
+    const create = () => {
+        const formData = new FormData();
+        formData.append("name", appName);
+        formData.append("category", category);
+    
+        if (icon) {
+            formData.append("icon", icon);
+        }
+    
+        formData.append("description", description);
+    
+        selectedFiles.forEach((file, index) => {
+            formData.append(`uploaded_images[${index}]`, file);
+        });
+    
+        groupSelected.forEach((labelId) => {
+            formData.append('labels', labelId);
+        });
+    
+        axios.post('http://localhost:8000/applications/', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+        .then((response) => {
+            console.log(response.data);
+            onClose()
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    };
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} isDismissable={false} size="xl" className="modal-overlay scrollbar-hide scroll-smooth" scrollBehavior="inside">
-            {/* <div className="modal"> */}
-            {/* <div className="modal-content"> */}
             <ModalContent>
                 {(onClose) => (
                     <>
@@ -39,25 +79,29 @@ function CreatePost({ isOpen, onClose, name, data }) {
                         <ModalBody >
                             <div className="flex flex-col gap-3" >
                                 <div className="flex w-full ">
-                                    <Input type="text" label="App name" description="This also the heading of the post." />
+                                    <Input type="text" label="App name" value={appName} onChange={(e) => setAppName(e.target.value)} description="This also the heading of the post." />
                                 </div>
                                 <div className="sm:flex gap-2 justify-between">
                                     <Select
-                                        label="Select an category"
+                                        label="Select a category"
                                         className="w-full"
                                         description="Select the category of the post."
+                                        value={category}
+                                        onChange={(e) => setCategory(e.target.value)}
                                     >
-                                        <SelectItem value={"android"}>
+                                        <SelectItem key="android" value="android">
                                             Android
                                         </SelectItem>
-                                        <SelectItem value={"windows"}>
-                                            windows
+                                        <SelectItem key="windows" value="windows">
+                                            Windows
                                         </SelectItem>
                                     </Select>
                                 </div>
                                 <div className="flex-none">
+                                    <Labels groupSelected={groupSelected} setGroupSelected={setGroupSelected} />
+                                </div>
+                                <div className="flex-none">
                                     <label className="text-small">Icon Image:</label>
-                                    {/* <FileInputReact type="file" id="icon" accept="image/*" className="max-w-xs w-full" onChange={handleIconChange} description="App icon." /> */}
                                     {icon ? (
                                         <div className="flex flex-col items-center">
                                             <img
@@ -70,7 +114,7 @@ function CreatePost({ isOpen, onClose, name, data }) {
                                                 className="mt-2 text-red-500 bg-transparent border-none cursor-pointer hover:text-white hover:bg-purple-700"
                                                 onClick={removeIcon}
                                             >
-                                                <Trash/>
+                                                <Trash />
                                             </button>
                                         </div>
                                     ) : (
@@ -95,14 +139,12 @@ function CreatePost({ isOpen, onClose, name, data }) {
                             <button className="close-button" onClick={onClose}>
                                 Close
                             </button>
-                            <Button variant="shadow" className="bg-success-500" onClick={onClose}>
+                            <Button variant="shadow" className="bg-success-500" onClick={create}>
                                 Submit
                             </Button>
                         </ModalFooter>
                     </>)}
             </ModalContent>
-            {/* </div> */}
-            {/* </div> */}
         </Modal>
     );
 }

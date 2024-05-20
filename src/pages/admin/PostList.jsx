@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tabs, Tab, Card, CardBody, CardHeader, Avatar } from "@nextui-org/react";
 import { AppWindow, EllipsisVertical, LayoutGrid, Rss } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -7,10 +7,24 @@ import ActionDrop from './components/ActionDrop';
 import axios from 'axios';
 
 function PostList() {
+  const [apps, setApps] = useState()
+  const [android, setAndroid] = useState()
+  const [windows, setWindows] = useState()
   useEffect(() => {
     console.log("start to fetch data ");
-    axios.get("http://127.0.0.1:8000/applications/").then((res) => console.log("apps", res)).catch((err) => console.log(err))
+    axios.get("http://127.0.0.1:8000/applications/").then((res) => {
+      console.log("apps", res.data)
+      setApps(res.data)
+      const and = filterMethod(apps, "android")
+      const win = filterMethod(apps, "windows")
+      setWindows(win)
+      setAndroid(and)
+    }).catch((err) => console.log(err))
   }, [])
+  const filterMethod = (apps, type) => {
+    const data = apps.filter((data) => data.category == type)
+    return data
+  }
   return (
     <div className='grid justify-center'>
       <div className="m-auto flex w-full overflow-y-hidden flex-col">
@@ -26,15 +40,15 @@ function PostList() {
           >
             <div className='fixed w-full max-h-[87vh] overflow-scroll scroll-smooth scrollbar-hide left-0'>
               <div className="container m-auto gap-3 py-5 pb-8 flex flex-wrap">
-                {listData.map((data, index) => (
+                {android?.map((data, index) => (
                   <div key={index} className='m-auto flex-none w-full px-4 md:max-w-[420px] '>
                     <Card>
                       <CardHeader className='flex justify-between'>
-                        <Avatar src={data.img} radius='lg' className="w-20 h-20 text-large" />
+                        <Avatar src={data.icon} radius='lg' className="w-20 h-20 text-large" />
                         <ActionDrop />
                       </CardHeader>
                       <CardBody>
-                        <span className='text-xl font-bold'>{data.title}</span>
+                        <span className='text-xl font-bold'>{data.name}</span>
                       </CardBody>
                     </Card>
                   </div>
@@ -53,15 +67,15 @@ function PostList() {
           >
             <div className='fixed w-full max-h-[87vh] overflow-scroll scroll-smooth scrollbar-hide left-0'>
               <div className="container m-auto gap-3 py-5 pb-8 flex flex-wrap">
-                {listData.map((data, index) => (
+                {windows?.map((data, index) => (
                   <div key={index} className='m-auto flex-none w-full px-4 md:max-w-[420px] '>
                     <Card>
                       <CardHeader className='flex justify-between'>
-                        <Avatar src={data.img} radius='lg' className="w-20 h-20 text-large" />
+                        <Avatar src={data.icon} radius='lg' className="w-20 h-20 text-large" />
                         <ActionDrop />
                       </CardHeader>
                       <CardBody>
-                        <span className='text-xl font-bold'>{data.title}</span>
+                        <span className='text-xl font-bold'>{data.name}</span>
                       </CardBody>
                     </Card>
                   </div>
