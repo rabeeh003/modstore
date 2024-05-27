@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Tabs, Tab, Card, CardBody, CardHeader, Avatar } from "@nextui-org/react";
 import { AppWindow, EllipsisVertical, LayoutGrid, Rss } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import listData from '../../assets/Applist.json'
-import ActionDrop from './components/ActionDrop';
-import axios from 'axios';
+import { BaseUrl } from './utils/constData';
+import Axios from './utils/axios';
+
+// import ActionDrop from './components/ActionDrop';
+const ActionDrop = React.lazy(() => import("./components/ActionDrop"));
 
 function PostList() {
   const [apps, setApps] = useState()
@@ -12,16 +13,16 @@ function PostList() {
   const [windows, setWindows] = useState()
   useEffect(() => {
     console.log("start to fetch data ");
-    axios.get("http://127.0.0.1:8000/applications/").then((res) => {
+    Axios.get(BaseUrl + "applications/").then((res) => {
       console.log("apps", res.data)
       setApps(res.data)
-      const and = filterMethod(apps, "android")
-      const win = filterMethod(apps, "windows")
+      const and = filterMethod(res.data, "android")
+      const win = filterMethod(res.data, "windows")
       setWindows(win)
       setAndroid(and)
     }).catch((err) => console.log(err))
   }, [])
-  const filterMethod = (apps, type) => {
+  function filterMethod(apps, type) {
     const data = apps.filter((data) => data.category == type)
     return data
   }
@@ -45,7 +46,9 @@ function PostList() {
                     <Card>
                       <CardHeader className='flex justify-between'>
                         <Avatar src={data.icon} radius='lg' className="w-20 h-20 text-large" />
-                        <ActionDrop />
+                        <React.Suspense fallback={<>...</>}> 
+                          <ActionDrop data={data} />
+                        </React.Suspense>
                       </CardHeader>
                       <CardBody>
                         <span className='text-xl font-bold'>{data.name}</span>
@@ -72,7 +75,9 @@ function PostList() {
                     <Card>
                       <CardHeader className='flex justify-between'>
                         <Avatar src={data.icon} radius='lg' className="w-20 h-20 text-large" />
-                        <ActionDrop />
+                        <React.Suspense fallback={<>...</>}> 
+                        <ActionDrop data={data}/>
+                        </React.Suspense>
                       </CardHeader>
                       <CardBody>
                         <span className='text-xl font-bold'>{data.name}</span>

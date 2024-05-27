@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import { EllipsisVertical } from "lucide-react";
 import CreatePost from "./post/CreatePost.jsx";
+import UpdatePost from "./post/UpdatePost.jsx";
 
-export default function ParentComponent() {
+export default function ParentComponent({data}) {
     const [editOpen, setEditOpen] = React.useState(false);
 
     const handleEditClick = () => {
@@ -26,7 +27,7 @@ export default function ParentComponent() {
                     <DropdownItem key="delete">Delete</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-            <CreatePost name="Edit post" isOpen={editOpen} onClose={handleCloseEdit} data={''} />
+            <UpdatePost name="Edit post" isOpen={editOpen} onClose={handleCloseEdit} data={data} />
         </>
     );
 }

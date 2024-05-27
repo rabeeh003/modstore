@@ -10,13 +10,17 @@ import serverDown from '../../assets/serverdown.png'
 function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const [isDown, setDown] = useState(false)
+    const [labels, setLabels] = useState([])
     const [apps, setApps] = useState([])
     const [android, setAndroid] = useState([])
     const [windows, setWindows] = useState([])
+
+
     useEffect(() => {
         setIsLoading(true);
         console.log("start to fetch data ");
-        axios.get("http://127.0.0.1:8000/applications/").then((res) => {
+        axios.get("http://127.0.0.1:8000/labels/").then((res)=>setLabels(res.data)).catch((err)=>setDown(true))
+        axios.get("http://127.0.0.1:8000/apps/").then((res) => {
             console.log("apps", res.data)
             setApps(res.data)
             setIsLoading(false);
