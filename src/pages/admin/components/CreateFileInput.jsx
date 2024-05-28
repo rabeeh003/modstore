@@ -22,32 +22,8 @@ const CreateFileInput = ({ selectedFiles, setSelectedFiles }) => {
 
     return (
         <div className="flex flex-col items-center">
-            {selectedFiles.length < 5 ? (
-                <>
-                    <input
-                        type="file"
-                        ref={inputRef}
-                        onChange={handleOnChange}
-                        style={{ display: "none" }}
-                        accept="image/*"
-                        multiple
-                    />
-                    <button
-                        type="button"
-                        className="w-64 h-36 text-lg font-medium flex flex-col items-center justify-center gap-4 text-green-700 bg-white border-2 border-dashed border-green-700 rounded-xl cursor-pointer transition-all duration-300 ease-in-out hover:bg-white hover:text-green-700"
-                        onClick={onChooseFile}
-                    >
-                        <span className="material-symbols-rounded text-3xl w-12 h-12 flex items-center justify-center rounded-full bg-green-100 text-green-700">
-                            upload
-                        </span>
-                        Upload Images
-                    </button>
-                    <p className="text-[12px] text-gray-400">max image count 5.</p>
-                </>
-            ) : null}
-
             {selectedFiles.length > 0 && (
-                <div className="mt-5 w-full flex flex-col items-center">
+                <div className="mb-5 w-full flex flex-col items-center">
                     {selectedFiles.map((file, index) => (
                         <div
                             key={index}
@@ -72,6 +48,29 @@ const CreateFileInput = ({ selectedFiles, setSelectedFiles }) => {
                     ))}
                 </div>
             )}
+            {selectedFiles.length < 5 ? (
+                <>
+                    <input
+                        type="file"
+                        ref={inputRef}
+                        onChange={handleOnChange}
+                        style={{ display: "none" }}
+                        accept="image/*"
+                        multiple
+                    />
+                    <button
+                        type="button"
+                        className="w-64 h-36 text-lg font-medium flex flex-col items-center justify-center gap-4 text-green-700 bg-white border-2 border-dashed border-green-700 rounded-xl cursor-pointer transition-all duration-300 ease-in-out hover:bg-white hover:text-green-700"
+                        onClick={onChooseFile}
+                    >
+                        <span className="material-symbols-rounded text-3xl w-12 h-12 flex items-center justify-center rounded-full bg-green-100 text-green-700">
+                            upload
+                        </span>
+                        Upload Images
+                    </button>
+                    <p className="text-[12px] text-gray-400">max image count 5.</p>
+                </>
+            ) : null}
         </div>
     );
 };

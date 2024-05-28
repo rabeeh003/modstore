@@ -8,8 +8,9 @@ import { BaseUrl } from "../../utils/constData";
 import Notification, { notify } from "../../utils/Notification";
 import CreateFileInput from "../CreateFileInput";
 
-function CreatePost({ isOpen, onClose, name, data }) {
-    if (!isOpen) return null;
+function CreatePost({ isOpen, onClose, name, data,setRefech }) {
+    // if (!isOpen) return null;
+
 
     const [appName, setAppName] = useState("");
     const [category, setCategory] = useState("");
@@ -61,6 +62,7 @@ function CreatePost({ isOpen, onClose, name, data }) {
         })
             .then((response) => {
                 notify('s', "Post created")
+                setRefech((pre)=>pre++)
                 console.log(response.data);
                 onClose()
             })

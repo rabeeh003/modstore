@@ -3,8 +3,12 @@ import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDi
 import axios from 'axios';
 import { Download, NotebookPen } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom';
+import { BaseUrl } from '../admin/utils/constData';
 
 function PostPage() {
+    const { appid } = useParams();
+    console.log("appid :", appid);
     const images = [
         "https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(70).webp",
         "https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(72).webp",
@@ -19,6 +23,29 @@ function PostPage() {
     const [value, setValue] = React.useState(0);
     const [seconds, setSeconds] = useState(10);
     const [isActive, setIsActive] = useState(false);
+
+    const location = useLocation();
+    const initialData = location.state?.appData;
+
+    const [appData, setAppData] = useState(initialData || {});
+    const [imageData, setImageData] = useState();
+
+    useEffect(() => {
+        if (!initialData) {
+            axios.get(BaseUrl+`/apps/${appid}/`)
+                // .then(response => response.json())
+                .then(res => {
+                    setAppData(res.data)
+                    axios.get(BaseUrl + `ref/img/?application=${appid}`).then(
+                        (res) => {
+                            console.log(res.data)
+                            setImageData(res.data)
+                        }
+                    ).catch((err) => console.error(err))
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+    }, [appid, initialData]);
 
     useEffect(() => {
         let intervalId;
@@ -37,7 +64,8 @@ function PostPage() {
                 <div className='sm:sticky top-24 max-h-[350px] grid justify-center sm:min-w-[200px] md:min-w-[300px]'>
                     <Image
                         isBlurred
-                        src="https://nextui-docs-v2.vercel.app/images/album-cover.png"
+                        // src="https://nextui-docs-v2.vercel.app/images/album-cover.png"
+                        src={appData?.icon}
                         alt="NextUI Album Cover"
                         className="m-5 sm:m-[50px] w-[100px]  md:w-[200px]"
                     />
@@ -51,9 +79,14 @@ function PostPage() {
                     </div>
                 </div>
                 <div className='pt-4 sm:pl-10'>
-                    <h1 className='font-mono font-semibold text-2xl sm:text-3xl md:text-4xl'>Download My Little Universe (MOD, Unlimited Resources) 2.10.0 free on android</h1>
+                    <h1 className='font-mono pb-4 font-semibold text-2xl sm:text-3xl md:text-4xl'>{appData.name}</h1>
+                    <div>
+                        {appData?.labels?.map((label)=>(
+                            <span className='border-2 py-1 px-2 mr-2 rounded-2xl'>{label.name}</span>
+                        ))}
+                    </div>
                     <NotebookPen className='mt-5' />
-                    <p className='sm:text-[18px] text-justify '>a game in which you can feel like God and build your own planet. Pick up a pickaxe or an axe and collect useful materials, but to build new islands you will need not only wood and stones, but also many different fossil metals. As you build new cities, you can open businesses and repopulate empty islands. Keep your planet safe from enemies who will regularly attack civilians.</p>
+                    <p className='sm:text-[18px] text-justify '>{appData.description}</p>
                 </div>
             </div>
             <div>
@@ -61,17 +94,17 @@ function PostPage() {
                     <div className="m-1 flex flex-wrap md:-m-2 justify-center">
                         <Image
 
-                            src={images[currentImage]}
+                            src={imageData[currentImage]?.image}
                             alt='image'
                             className='w-full max-w-[600px] h-full max-h-[600px]'
                         />
-                        <div className='flex'>
-                            {images.map((image, index) => (
+                        <div className='flex mt-5'>
+                            {imageData?.map((image, index) => (
                                 <div className="w-1/4 p-1 md:p-2 max-h-[120px]" key={index} onClick={() => setCurrentImage(index)}>
                                     <img
                                         alt="gallery"
                                         className="block h-full w-full rounded-lg object-cover object-center"
-                                        src={image}
+                                        src={image.image}
                                     />
                                 </div>
                             ))}

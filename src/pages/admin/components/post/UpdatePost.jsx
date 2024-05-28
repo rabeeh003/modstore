@@ -8,39 +8,7 @@ import { BaseUrl } from "../../utils/constData";
 import Notification, { notify } from "../../utils/Notification";
 
 
-function UpdatePost({ isOpen, onClose, name, data }) {
-    // if (!isOpen) return null;
-    console.log("data to edit : ", data);
-    // const notify = (type, data) => {
-    //     if (type == "s") {
-    //         toast.success(data, {
-    //             position: "top-right",
-    //             autoClose: 3000,
-    //             hideProgressBar: false,
-    //             closeOnClick: true,
-    //             pauseOnHover: true,
-    //             draggable: true,
-    //             progress: undefined,
-    //         }
-    //         );
-    //         return
-    //     }
-    //     if (type == "e") {
-    //         console.log("working");
-    //         toast.error(`error : ${data}`,
-    //             {
-    //                 position: "top-right",
-    //                 autoClose: 3000,
-    //                 hideProgressBar: false,
-    //                 closeOnClick: true,
-    //                 pauseOnHover: true,
-    //                 draggable: true,
-    //                 progress: undefined,
-    //             }
-    //         );
-    //         return
-    //     }
-    // };
+function UpdatePost({ isOpen, onClose, name, data, setRefech }) {
     const [appName, setAppName] = useState("");
     const [category, setCategory] = useState("");
     const [icon, setIcon] = useState(null);
@@ -95,10 +63,6 @@ function UpdatePost({ isOpen, onClose, name, data }) {
             formData.append("description", description);
         }
 
-        // selectedFiles?.forEach((file, index) => {
-        //     formData.append(`uploaded_images[${index}]`, file);
-        // });
-
         groupSelected.forEach((labelId) => {
             formData.append('labels', labelId);
         });
@@ -109,9 +73,10 @@ function UpdatePost({ isOpen, onClose, name, data }) {
             },
         })
             .then((response) => {
-                notify('s', "Post updated")
+                setRefech((prev)=>prev++)
                 console.log(response.data);
                 onClose()
+                notify('s', "Post updated")
 
             })
             .catch((error) => {

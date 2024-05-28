@@ -35,12 +35,12 @@ function App() {
   return (
     <div className={`${them} h-full min-h-[100vh] bg-background text-foreground`}>
       <Routes>
-        <Route path='/' element={<UserNavbar />}>
-          <Route index element={<Home />} />
-          <Route path='appid' element={<PostPage />} />
-          <Route path='android' element={<Category tab="Android" />} />
-          <Route path='windows' element={<Category tab="Windows" />} />
-        </Route>
+          <Route path='/' element={<UserNavbar />}>
+            <Route index element={<Home />} />
+            <Route path='apps/:appid' element={<PostPage />} />
+            <Route path='android' element={<Category tab="Android" />} />
+            <Route path='windows' element={<Category tab="Windows" />} />
+          </Route>
         <Route path='/admin' element={<AdminRoute><AdminNavbar /></AdminRoute>}>
           <Route index element={<AdminHome />} />
           <Route path='post-list' element={<PostList />} />

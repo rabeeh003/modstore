@@ -11,6 +11,7 @@ function PostList() {
   const [apps, setApps] = useState()
   const [android, setAndroid] = useState()
   const [windows, setWindows] = useState()
+  const [refech, setRefech] = useState(0)
   useEffect(() => {
     console.log("start to fetch data ");
     Axios.get(BaseUrl + "applications/").then((res) => {
@@ -21,7 +22,7 @@ function PostList() {
       setWindows(win)
       setAndroid(and)
     }).catch((err) => console.log(err))
-  }, [])
+  }, [refech])
   function filterMethod(apps, type) {
     const data = apps.filter((data) => data.category == type)
     return data
@@ -47,7 +48,7 @@ function PostList() {
                       <CardHeader className='flex justify-between'>
                         <Avatar src={data.icon} radius='lg' className="w-20 h-20 text-large" />
                         <React.Suspense fallback={<>...</>}> 
-                          <ActionDrop data={data} />
+                          <ActionDrop data={data} setRefech={()=>setRefech()}/>
                         </React.Suspense>
                       </CardHeader>
                       <CardBody>
@@ -76,7 +77,7 @@ function PostList() {
                       <CardHeader className='flex justify-between'>
                         <Avatar src={data.icon} radius='lg' className="w-20 h-20 text-large" />
                         <React.Suspense fallback={<>...</>}> 
-                        <ActionDrop data={data}/>
+                          <ActionDrop data={data} setRefech={()=>setRefech()}/>
                         </React.Suspense>
                       </CardHeader>
                       <CardBody>
