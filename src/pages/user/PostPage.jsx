@@ -18,7 +18,7 @@ function PostPage() {
         "https://play-lh.googleusercontent.com/W7J_rhJYWt65XQHaZ7N_6Nptu0wC6n4k9WX59qg46KRpe9b5I1LarJqZ7L-Uu9okgA=w526-h296-rw"
     ];
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const [currentImage, setCurrentImage] = useState(2)
+    const [currentImage, setCurrentImage] = useState(0)
 
     const [value, setValue] = React.useState(0);
     const [seconds, setSeconds] = useState(10);
@@ -26,19 +26,21 @@ function PostPage() {
 
     const location = useLocation();
     const initialData = location.state?.appData;
+    console.log("Received location:", location);
+    console.log("Received initialData:", initialData);
 
     const [appData, setAppData] = useState(initialData || {});
     const [imageData, setImageData] = useState();
 
     useEffect(() => {
         if (!initialData) {
-            axios.get(BaseUrl+`/apps/${appid}/`)
+            axios.get(BaseUrl + `/apps/${appid}/`)
                 // .then(response => response.json())
                 .then(res => {
                     setAppData(res.data)
                     axios.get(BaseUrl + `ref/img/?application=${appid}`).then(
                         (res) => {
-                            console.log(res.data)
+                            console.log("images of application : " + res.data)
                             setImageData(res.data)
                         }
                     ).catch((err) => console.error(err))
@@ -81,8 +83,8 @@ function PostPage() {
                 <div className='pt-4 sm:pl-10'>
                     <h1 className='font-mono pb-4 font-semibold text-2xl sm:text-3xl md:text-4xl'>{appData.name}</h1>
                     <div>
-                        {appData?.labels?.map((label)=>(
-                            <span className='border-2 py-1 px-2 mr-2 rounded-2xl'>{label.name}</span>
+                        {appData?.labels?.map((label) => (
+                            <span key={label} className='border-2 py-1 px-2 mr-2 rounded-2xl'>{label.name}</span>
                         ))}
                     </div>
                     <NotebookPen className='mt-5' />
@@ -92,13 +94,15 @@ function PostPage() {
             <div>
                 <div className="mt-5 mx-auto px-5 py-2 lg:px-32 lg:pt-24">
                     <div className="m-1 flex flex-wrap md:-m-2 justify-center">
-                        <Image
 
-                            src={imageData[currentImage]?.image}
-                            alt='image'
-                            className='w-full max-w-[600px] h-full max-h-[600px]'
-                        />
-                        <div className='flex mt-5'>
+                        {imageData && (
+                            <Image
+                                src={imageData[currentImage]?.image}
+                                alt='image'
+                                className='w-full max-w-[600px] h-full max-h-[600px]'
+                            />
+                        )}
+                        <div className='flex mt-5 justify-center'>
                             {imageData?.map((image, index) => (
                                 <div className="w-1/4 p-1 md:p-2 max-h-[120px]" key={index} onClick={() => setCurrentImage(index)}>
                                     <img

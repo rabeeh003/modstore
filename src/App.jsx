@@ -38,8 +38,7 @@ function App() {
           <Route path='/' element={<UserNavbar />}>
             <Route index element={<Home />} />
             <Route path='apps/:appid' element={<PostPage />} />
-            <Route path='android' element={<Category tab="Android" />} />
-            <Route path='windows' element={<Category tab="Windows" />} />
+            <Route path=':category' element={<Category />} />
           </Route>
         <Route path='/admin' element={<AdminRoute><AdminNavbar /></AdminRoute>}>
           <Route index element={<AdminHome />} />

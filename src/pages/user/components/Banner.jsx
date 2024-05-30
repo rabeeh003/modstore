@@ -2,7 +2,7 @@ import React from 'react'
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from 'lucide-react';
 
-function Banner() {
+function Banner({ searchQuery, setSearchQuery }) {
     return (
         <div
             className="w-full h-64 md:h-[400px] "
@@ -21,6 +21,8 @@ function Banner() {
                 <Input
                     // label="Search"
                     // isClearable
+                    value={searchQuery}
+                    onChange={(e)=>setSearchQuery(e.target.value)}
                     radius="lg"
                     classNames={{
                         label: "text-black/50 dark:text-white/90",

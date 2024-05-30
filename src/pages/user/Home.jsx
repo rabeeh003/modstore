@@ -1,42 +1,51 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Spinner } from '@nextui-org/react';
 import AvatarComponent from './components/AvatarComponent';
 import AppSlider from './components/AppSlider';
 import Banner from './components/Banner';
-import listData from '../../assets/Applist.json'
 import axios from 'axios';
-import serverDown from '../../assets/serverdown.png'
+import serverDown from '../../assets/serverdown.png';
+import AppCart from './components/AppCart';
+import { Link } from 'react-router-dom';
 
 function Home() {
     const [isLoading, setIsLoading] = useState(true);
-    const [isDown, setDown] = useState(false)
-    const [labels, setLabels] = useState([])
-    const [apps, setApps] = useState([])
-    const [android, setAndroid] = useState([])
-    const [windows, setWindows] = useState([])
-
+    const [isDown, setDown] = useState(false);
+    const [labels, setLabels] = useState([]);
+    const [apps, setApps] = useState([]);
+    const [android, setAndroid] = useState([]);
+    const [windows, setWindows] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         setIsLoading(true);
-        console.log("start to fetch data ");
-        axios.get("http://127.0.0.1:8000/labels/").then((res)=>setLabels(res.data)).catch((err)=>setDown(true))
-        axios.get("http://127.0.0.1:8000/apps/").then((res) => {
-            console.log("apps", res.data)
-            setApps(res.data)
-            setIsLoading(false);
-        }).catch((err) => {
-            console.log(err)
-            setDown(true)
-            setIsLoading(false);
-        })
-    }, [])
+        console.log("Start to fetch data");
+        axios.get("http://127.0.0.1:8000/labels/")
+            .then((res) => setLabels(res.data))
+            .catch((err) => setDown(true));
+        axios.get("http://127.0.0.1:8000/apps/")
+            .then((res) => {
+                console.log("apps", res.data);
+                setApps(res.data);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setDown(true);
+                setIsLoading(false);
+            });
+    }, []);
 
     useEffect(() => {
-        const and = apps.filter((data) => data.category == "android")
-        const win = apps.filter((data) => data.category == "windows")
-        setWindows(win)
-        setAndroid(and)
-    }, [apps, setWindows, setAndroid])
+        const and = apps.filter((data) => data.category.toLowerCase() === "android");
+        const win = apps.filter((data) => data.category.toLowerCase() === "windows");
+        setWindows(win);
+        setAndroid(and);
+    }, [apps]);
+
+    const filteredApps = apps.filter((app) => 
+        app.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <div>
@@ -48,48 +57,64 @@ function Home() {
                 <>
                     {!isDown ? (
                         <div>
-                            <Banner />
+                            <Banner searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                             <div className='container mx-auto px-5 sm:px-10 mt-4'>
-                                {android.length > 0 && (
+                                {searchQuery ? (
+                                    <div className='pt-3 grid gap-4 pb-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+                                        {filteredApps.length > 0 ? (
+                                            filteredApps.map((item, index) => (
+                                                <Link key={index} to={`/apps/${item.id}`} state={{ appData: item }} className='max-w-[180px] flex-none'>
+                                                    <AppCart key={index} item={item} />
+                                                </Link>
+                                            ))
+                                        ) : (
+                                            <div>No results found for "{searchQuery}"</div>
+                                        )}
+                                    </div>
+                                ) : (
                                     <>
-                                        <AppSlider list={android} title={'Android mods'} idd={'android'} route={'/android'} />
-                                        <div className='flex flex-wrap m-auto justify-between'>
-                                            <AvatarComponent title='Games' />
-                                            <AvatarComponent />
-                                            <div className='hidden md:flex justify-between'>
-                                                <AvatarComponent title='Tools' />
-                                            </div>
-                                            <div className='hidden md:flex justify-between'>
-                                                <AvatarComponent title='Hacking' />
-                                            </div>
-                                            <div className='hidden lg:flex justify-between'>
-                                                <AvatarComponent />
-                                            </div>
-                                            <div className='hidden lg:flex justify-between'>
-                                                <AvatarComponent />
-                                            </div>
-                                        </div>
-                                    </>
-                                )}
-                                {windows.length > 0 && (
-                                    <>
-                                        <AppSlider list={windows} title={'Windows mods'} idd={"windo"} route={'/windows'} />
-                                        <div className='flex flex-wrap m-auto justify-between'>
-                                            <AvatarComponent title='Games' />
-                                            <AvatarComponent />
-                                            <div className='hidden md:flex justify-between'>
-                                                <AvatarComponent title='Tools' />
-                                            </div>
-                                            <div className='hidden md:flex justify-between'>
-                                                <AvatarComponent title='Hacking' />
-                                            </div>
-                                            <div className='hidden lg:flex justify-between'>
-                                                <AvatarComponent title='Racing' />
-                                            </div>
-                                            <div className='hidden lg:flex justify-between'>
-                                                <AvatarComponent />
-                                            </div>
-                                        </div>
+                                        {android.length > 0 && (
+                                            <>
+                                                <AppSlider list={android} title={'Android mods'} idd={'android'} route={'/android'} />
+                                                <div className='flex flex-wrap m-auto justify-between'>
+                                                    <AvatarComponent title='Games' />
+                                                    <AvatarComponent />
+                                                    <div className='hidden md:flex justify-between'>
+                                                        <AvatarComponent title='Tools' />
+                                                    </div>
+                                                    <div className='hidden md:flex justify-between'>
+                                                        <AvatarComponent title='Hacking' />
+                                                    </div>
+                                                    <div className='hidden lg:flex justify-between'>
+                                                        <AvatarComponent />
+                                                    </div>
+                                                    <div className='hidden lg:flex justify-between'>
+                                                        <AvatarComponent />
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )}
+                                        {windows.length > 0 && (
+                                            <>
+                                                <AppSlider list={windows} title={'Windows mods'} idd={"windo"} route={'/windows'} />
+                                                <div className='flex flex-wrap m-auto justify-between'>
+                                                    <AvatarComponent title='Games' />
+                                                    <AvatarComponent />
+                                                    <div className='hidden md:flex justify-between'>
+                                                        <AvatarComponent title='Tools' />
+                                                    </div>
+                                                    <div className='hidden md:flex justify-between'>
+                                                        <AvatarComponent title='Hacking' />
+                                                    </div>
+                                                    <div className='hidden lg:flex justify-between'>
+                                                        <AvatarComponent title='Racing' />
+                                                    </div>
+                                                    <div className='hidden lg:flex justify-between'>
+                                                        <AvatarComponent />
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )}
                                     </>
                                 )}
                             </div>
@@ -97,7 +122,7 @@ function Home() {
                     ) : (
                         <div className='flex flex-col justify-center h-[70vh]'>
                             <img src={serverDown} alt="server down" />
-                            <h3 className='text-center'>sorry, server down</h3>
+                            <h3 className='text-center'>Sorry, server down</h3>
                         </div>
                     )}
                 </>
@@ -106,4 +131,4 @@ function Home() {
     );
 }
 
-export default Home
+export default Home;

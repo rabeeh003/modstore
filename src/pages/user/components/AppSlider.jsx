@@ -28,7 +28,8 @@ function AppSlider({ list, title, idd, route }) {
                 <button className='bg-green-400 p-2 hidden sm:flex rounded-full font-bold absolute top-[40%] z-20 -left-3' onClick={leftMove}><ArrowLeft /></button>
                 <div id={idd} className='h-full flex gap-5 md:gap-10 w-full p-3 overflow-x-scroll scroll whitespace-nowrap scroll-smooth scrollbar-hide md:scrollbar-default' >
                     {list?.map((item, index) => (
-                        <Link to={`apps/${item.id}`} state={{appData:item}} className='max-w-[180px] flex-none' >
+                        <Link key={index} to={`apps/${item.id}`} state={{ appData: item }} className='max-w-[180px] flex-none' >
+                            {console.log("Passing state:", item)}
                             <AppCart key={index} item={item} />
                         </Link>
                     ))}
