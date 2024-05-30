@@ -4,12 +4,13 @@ import { Switch } from "@nextui-org/react";
 import { MoonStar, Plus, SunMoon } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLight, setDark } from '../../../redux/Them.jsx';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import CreatePost from './post/CreatePost.jsx';
 import { setCleanAdmin } from '../../../redux/Admin.jsx';
 
 function AdminNavbar() {
+  const navigate = useNavigate()
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { currentThem } = useSelector((state) => state.them);
   const dispatch = useDispatch()
@@ -68,7 +69,7 @@ function AdminNavbar() {
             <DropdownMenu variant="faded" aria-label="Static Actions">
               <DropdownItem key="android" onClick={handleShowAndroid}>Android</DropdownItem>
               <DropdownItem key="windows">Windows</DropdownItem>
-              <DropdownItem key="blog">Blog</DropdownItem>
+              <DropdownItem key="blog" onClick={()=>navigate("create-blog")}>Blog</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <Switch

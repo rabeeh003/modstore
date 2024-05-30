@@ -10,6 +10,7 @@ import AdminHome from './pages/admin/AdminHome';
 import PostList from './pages/admin/PostList';
 import Advertisement from './pages/admin/Advertisement';
 import Login from './pages/admin/Login';
+import CreateBlog from './pages/admin/CreateBlog';
 
 function App() {
   const them = useSelector(state => state.them.currentThem)
@@ -44,6 +45,7 @@ function App() {
           <Route index element={<AdminHome />} />
           <Route path='post-list' element={<PostList />} />
           <Route path='advertisement' element={<Advertisement />} />
+          <Route path='create-blog' element={<CreateBlog />} />
         </Route>
         <Route path='/login' element={<LoginRoute><Login /></LoginRoute>} />
       </Routes>

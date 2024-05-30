@@ -38,7 +38,7 @@ export default function ParentComponent({data, setRefech}) {
                     <DropdownItem key="delete" onClick={deleteItem}>Delete</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-            <UpdatePost name="Edit post" isOpen={editOpen} onClose={handleCloseEdit} data={data} setRefech={setRefech} />
+            <UpdatePost name="Edit app" isOpen={editOpen} onClose={handleCloseEdit} data={data} setRefech={setRefech} />
             <ViewPost isOpen={viewOpen} onClose={()=>setViewOpen(false)} data={data} />
         </>
     );

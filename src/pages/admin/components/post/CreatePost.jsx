@@ -79,7 +79,7 @@ function CreatePost({ isOpen, onClose, name, data,setRefech }) {
                 {(onClose) => (
                     <>
                         <ModalHeader>
-                            <h2>{name}</h2>
+                            <h2>Create app</h2>
                         </ModalHeader>
                         <ModalBody >
                             <div className="flex flex-col gap-3" >

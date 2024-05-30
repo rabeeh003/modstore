@@ -3,6 +3,8 @@ import { Tabs, Tab, Card, CardBody, CardHeader, Avatar } from "@nextui-org/react
 import { AppWindow, EllipsisVertical, LayoutGrid, Rss } from 'lucide-react';
 import { BaseUrl } from './utils/constData';
 import Axios from './utils/axios';
+import { error } from 'jodit/esm/core/helpers';
+import ActionDropBlog from './components/ActionDropBlog';
 
 // import ActionDrop from './components/ActionDrop';
 const ActionDrop = React.lazy(() => import("./components/ActionDrop"));
@@ -11,6 +13,7 @@ function PostList() {
   const [apps, setApps] = useState()
   const [android, setAndroid] = useState()
   const [windows, setWindows] = useState()
+  const [blog, setBlog] = useState()
   const [refech, setRefech] = useState(0)
   useEffect(() => {
     console.log("start to fetch data ");
@@ -22,6 +25,12 @@ function PostList() {
       setWindows(win)
       setAndroid(and)
     }).catch((err) => console.log(err))
+    Axios.get(BaseUrl+ "blog/")
+      .then(res=>{
+        console.log(res.data)
+        setBlog(res.data)
+      })
+      .catch(err=>console.error(err))
   }, [refech])
   function filterMethod(apps, type) {
     const data = apps.filter((data) => data.category == type)
@@ -97,7 +106,28 @@ function PostList() {
                 <span>Blogs</span>
               </div>
             }
-          />
+          >
+            <div className='fixed w-full max-h-[87vh] overflow-scroll scroll-smooth scrollbar-hide left-0'>
+              <div className="container m-auto gap-3 py-5 pb-8 flex flex-wrap">
+                {blog?.map((data, index) => (
+                  <div key={index} className='m-auto flex-none w-full px-4 md:max-w-[420px] '>
+                    <Card>
+                      <CardHeader className='flex justify-between'>
+                        <Avatar src={data.image} radius='lg' className="w-20 h-20 text-large" />
+                        <React.Suspense fallback={<>...</>}> 
+                          <ActionDropBlog data={data} setRefech={()=>setRefech()}/>
+                        </React.Suspense>
+                      </CardHeader>
+                      <CardBody>
+                        <span className='text-xl font-bold'>{data.head}</span>
+                      </CardBody>
+                    </Card>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Tab>
+          
         </Tabs>
       </div>
     </div>

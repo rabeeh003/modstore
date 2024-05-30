@@ -7,6 +7,7 @@ import axios from 'axios';
 import serverDown from '../../assets/serverdown.png';
 import AppCart from './components/AppCart';
 import { Link } from 'react-router-dom';
+import BlogCard from './components/BlogCard';
 
 function Home() {
     const [isLoading, setIsLoading] = useState(true);
@@ -117,6 +118,9 @@ function Home() {
                                         )}
                                     </>
                                 )}
+                            </div>
+                            <div>
+                                <BlogCard/>
                             </div>
                         </div>
                     ) : (
