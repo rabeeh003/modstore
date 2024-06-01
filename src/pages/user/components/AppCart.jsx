@@ -1,12 +1,13 @@
 import React from 'react'
 import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { useNavigate } from 'react-router-dom';
 
 
 function AppCart({ item }) {
-    
+    const navigate = useNavigate()
     return (
         <div>
-            <Card shadow="sm" className='min-w-[150px]' isPressable onPress={() => console.log("item pressed")}>
+            <Card shadow="sm" className='min-w-[150px]' isPressable onPress={() => navigate(`apps/${item.id}`, { state: { appData: item } })}>
                 <CardBody className="overflow-visible p-0">
                     <div className='m-auto p-4'>
                         <Image

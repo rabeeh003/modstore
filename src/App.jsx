@@ -11,6 +11,7 @@ import PostList from './pages/admin/PostList';
 import Advertisement from './pages/admin/Advertisement';
 import Login from './pages/admin/Login';
 import CreateBlog from './pages/admin/CreateBlog';
+import BlogPage from './pages/user/BlogPage';
 
 function App() {
   const them = useSelector(state => state.them.currentThem)
@@ -39,6 +40,7 @@ function App() {
           <Route path='/' element={<UserNavbar />}>
             <Route index element={<Home />} />
             <Route path='apps/:appid' element={<PostPage />} />
+            <Route path='blog/:blogid' element={<BlogPage />} />
             <Route path=':category' element={<Category />} />
           </Route>
         <Route path='/admin' element={<AdminRoute><AdminNavbar /></AdminRoute>}>

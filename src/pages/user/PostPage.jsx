@@ -46,6 +46,13 @@ function PostPage() {
                     ).catch((err) => console.error(err))
                 })
                 .catch(error => console.error('Error fetching data:', error));
+        } else {
+            axios.get(BaseUrl + `ref/img/?application=${appid}`).then(
+                (res) => {
+                    console.log("images of application : " + res.data)
+                    setImageData(res.data)
+                }
+            ).catch((err) => console.error(err))
         }
     }, [appid, initialData]);
 

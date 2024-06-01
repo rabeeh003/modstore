@@ -2,25 +2,25 @@ import { Card, CardBody, Image } from '@nextui-org/react'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-function BlogCard({data}) {
+function SuggestBlogCard({data}) {
     const navigate = useNavigate()
     return (
         <div>
-            <article className='max-w-[100vw] sm:max-w-[450px] m-auto'>
-                <Card shadow="sm" className='' isPressable onPress={() => navigate(`/blog/${data.id}`, {state:{data:data}})}>
+            <article className='max-w-[90vw] w-[500px] sm:max-w-[300px] m-auto'>
+                <Card shadow="sm" className='w-full h-full' isPressable onPress={() => navigate(`/blog/${data.id}`, {state:{data:data}})}>
                     <CardBody className="overflow-visible p-0">
-                        <div className='m-auto p-4'>
+                        <div className='m-auto p-4 w-full'>
                             <Image
                                 isBlurred
                                 radius="lg"
                                 width="100%"
                                 alt={""}
-                                className="h-56 sm:h-36 xl:h-48 2xl:h-56 w-full object-cover"
+                                className="h-40 w-full object-cover"
                                 // src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
                                 src={data.image}
                             />
                             {/* <div className='truncate overflow-hidden text-ellipsis h-16 pt-2'> */}
-                            <h1 className="mt-2 line-clamp-2 text-lg/relaxed text-gray-500 dark:text-gray-400 font-bold">
+                            <h1 className="mt-2 line-clamp-2 text-md/relaxed text-gray-500 dark:text-gray-400 font-semibold">
                                 {data.head}
                             </h1>
                             {/* </div> */}
@@ -39,4 +39,4 @@ function BlogCard({data}) {
     )
 }
 
-export default BlogCard
+export default SuggestBlogCard

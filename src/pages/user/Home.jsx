@@ -8,6 +8,8 @@ import serverDown from '../../assets/serverdown.png';
 import AppCart from './components/AppCart';
 import { Link } from 'react-router-dom';
 import BlogCard from './components/BlogCard';
+import { BaseUrl } from '../admin/utils/constData';
+import { ChevronRight } from 'lucide-react';
 
 function Home() {
     const [isLoading, setIsLoading] = useState(true);
@@ -17,17 +19,29 @@ function Home() {
     const [android, setAndroid] = useState([]);
     const [windows, setWindows] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
+    const [blog, setBlog] = useState([]);
 
     useEffect(() => {
         setIsLoading(true);
         console.log("Start to fetch data");
-        axios.get("http://127.0.0.1:8000/labels/")
+        axios.get(BaseUrl + "labels/")
             .then((res) => setLabels(res.data))
             .catch((err) => setDown(true));
-        axios.get("http://127.0.0.1:8000/apps/")
+        axios.get(BaseUrl + "apps/")
             .then((res) => {
                 console.log("apps", res.data);
                 setApps(res.data);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setDown(true);
+                setIsLoading(false);
+            });
+        axios.get(BaseUrl + "blog/")
+            .then((res) => {
+                console.log("blog", res.data);
+                setBlog(res.data);
                 setIsLoading(false);
             })
             .catch((err) => {
@@ -44,7 +58,7 @@ function Home() {
         setAndroid(and);
     }, [apps]);
 
-    const filteredApps = apps.filter((app) => 
+    const filteredApps = apps.filter((app) =>
         app.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -116,11 +130,27 @@ function Home() {
                                                 </div>
                                             </>
                                         )}
+                                        <div className='container m-auto'>
+                                            <Link to={''} >
+                                                <div className='flex py-6 align-middle justify-between'>
+                                                    <span className='text-3xl font-bold'>Blogs</span>
+                                                    <ChevronRight className='my-auto' />
+                                                </div>
+                                            </Link>
+                                            <div className='flex gap-2 flex-wrap justify-around flex-reverse'>
+                                                {blog.map((data) => (
+                                                    <div className='flex-none px-1 sm:px-0 w-full sm:max-w-[45%] lg:max-w-[30%]'>
+                                                        <BlogCard data={data} />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div class="w-full mt-4 rounded-t-2xl bg-black/5 p-4 text-center sticky">
+                                            © 2024 Copyright:
+                                            <Link to="/"> Mod'store</Link>
+                                        </div>
                                     </>
                                 )}
-                            </div>
-                            <div>
-                                <BlogCard/>
                             </div>
                         </div>
                     ) : (
