@@ -14,6 +14,8 @@ function UpdatePost({ isOpen, onClose, name, data, setRefech }) {
     const [icon, setIcon] = useState(null);
     const [dataIcon, setDataIcon] = useState(null);
     const [deleteIcon, setDeleteIcon] = useState(null);
+    const [dtype, setDType] = useState(true); // true is download file, false is download link.
+    const [download, setDownload] = useState("");
     const [description, setDescription] = useState("");
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [selectedFilesUrl, setSelectedFilesUrl] = useState([]);
@@ -38,28 +40,39 @@ function UpdatePost({ isOpen, onClose, name, data, setRefech }) {
             setDescription(data.description || "");
             setGroupSelected(data.labels || []);
             setDataIcon(data.icon || null);
+            setDType(data.dtype || null);
+            setDownload(data.download || "")
         }
         Axios.get(BaseUrl + `ref/img/?application=${data.id}`).then(
             (res) => {
                 console.log(res.data)
-                setSelectedFilesUrl(res.data)
+                setSelectedFilesUrl(res.data.results)
             }
         ).catch((err) => console.error(err))
     }, [data]);
 
     const update = () => {
         const formData = new FormData();
-        if (data.name !== appName){
+        if (data.name !== appName) {
             formData.append("name", appName);
         }
-        if (data.category !== category){
+        if (data.category !== category) {
             formData.append("category", category);
         }
-
+        if (data.download !== download) {
+            formData.append("download", download);
+        }
+        if (data.dtype !== dtype) {
+            if (dtype == true) {
+                formData.append("dtype", true);
+            } else if (dtype == false) {
+                formData.append("dtype", false);
+            }
+        }
         if (icon) {
             formData.append("icon", icon);
         }
-        if (data.description !== description){
+        if (data.description !== description) {
             formData.append("description", description);
         }
 
@@ -73,7 +86,7 @@ function UpdatePost({ isOpen, onClose, name, data, setRefech }) {
             },
         })
             .then((response) => {
-                setRefech((prev)=>prev++)
+                setRefech((prev) => prev++)
                 console.log(response.data);
                 onClose()
                 notify('s', "Post updated")
@@ -169,6 +182,28 @@ function UpdatePost({ isOpen, onClose, name, data, setRefech }) {
                                             )}
                                         </div>
                                     )}
+                                </div>
+                                <div>
+                                    <Textarea label="Download file / page link"  description="Add download file path or page link." value={download} onChange={(e) => setDownload(e.target.value)}></Textarea>
+                                </div>
+                                <div className="sm:flex gap-2 justify-between">
+                                    <Select
+                                        label="Select download type"
+                                        aria-label=""
+                                        className="w-full"
+                                        description="Select the type of link."
+                                        onChange={(e) => {
+                                            setDType(e.target.value)
+                                            console.log("file type ",e.target.value);
+                                        }}
+                                    >
+                                        <SelectItem key="true" value={true}>
+                                            File link
+                                        </SelectItem>
+                                        <SelectItem key="false" value={false}>
+                                            Page link
+                                        </SelectItem>
+                                    </Select>
                                 </div>
                                 <div>
                                     <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)}></Textarea>

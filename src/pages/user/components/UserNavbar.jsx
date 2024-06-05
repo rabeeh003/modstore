@@ -19,13 +19,6 @@ function UserNavbar() {
     }
   };
 
-  const menuItems = [
-    "Home",
-    "Android",
-    "windows",
-    "News",
-  ];
-
   return (
     <>
       <Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -54,6 +47,11 @@ function UserNavbar() {
           <NavbarItem>
             <NavLink color="foreground" to={'/windows'}>
               Windows
+            </NavLink>
+          </NavbarItem>
+          <NavbarItem>
+            <NavLink color="foreground" to={'/blog'}>
+              Blog
             </NavLink>
           </NavbarItem>
         </NavbarContent>
@@ -107,6 +105,17 @@ function UserNavbar() {
                 size="lg"
               >
                 windows
+              </span>
+            </NavbarMenuItem>
+          </NavLink>
+          <NavLink to={'/blog'}>
+            <NavbarMenuItem className='bg-background text-foreground-900 bg-opacity-30 rounded-lg py-2'>
+              <span
+                color={"foreground"}
+                className="w-full px-3"
+                size="lg"
+              >
+                blog
               </span>
             </NavbarMenuItem>
           </NavLink>

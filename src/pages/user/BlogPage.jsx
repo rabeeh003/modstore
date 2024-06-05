@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import { cn } from "../../utils/cn";
 import { Link, useLocation, useParams } from "react-router-dom";
-import { Button, Card, CardBody, Image } from "@nextui-org/react";
+import { Button, Card, CardBody, CardFooter, Image } from "@nextui-org/react";
 import axios from "axios";
 import { BaseUrl } from "../admin/utils/constData";
 import { ChevronRight, CloudDownload } from "lucide-react";
-import BlogCard from "./components/BlogCard";
 import SuggestBlogCard from "./components/SuggestBlogCard";
 
 function BlogPage({ children, className }) {
+  // my initialization code start
   const { blogid } = useParams();
   const location = useLocation();
   const initialData = location.state?.data;
@@ -24,11 +24,20 @@ function BlogPage({ children, className }) {
         .catch(err => console.error(err));
     }
     if (!initialSuggest) {
-      axios.get(`${BaseUrl}blog/`)
-        .then(res => setSuggest(res.data))
+      axios.get(`${BaseUrl}blog/?length=3`)
+        .then(res => setSuggest(res.data.results))
         .catch(err => console.error(err));
     }
   }, [blogid, data, initialData, initialSuggest]);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
+  // my initialization code is end
 
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -43,7 +52,7 @@ function BlogPage({ children, className }) {
     if (contentRef.current) {
       setSvgHeight(contentRef.current.offsetHeight - 200);
     }
-  }, []);
+  }, [data]);
 
   const y1 = useSpring(
     useTransform(scrollYProgress, [0, 0.8], [80, svgHeight]),
@@ -124,10 +133,12 @@ function BlogPage({ children, className }) {
         </div>
         <div ref={contentRef} className="pt-12">
           <Card shadow="sm" className="m-1">
-            <CardBody className="overflow-visible">
-              <Image src={data.image} />
-              <h1 className="text-2xl md:text-4xl py-2 font-mono font-bold">{data.head}</h1>
+            <CardBody className="overflow-visible grid justify-items-center">
+              <Image src={data.image} className="w-full bg-red-500" />
             </CardBody>
+            <CardFooter>
+              <h1 className="text-2xl md:text-4xl py-2 font-mono font-bold">{data.head}</h1>
+            </CardFooter>
           </Card>
           <Card shadow="sm" className="m-1">
             <CardBody className="overflow-visible">
@@ -145,14 +156,16 @@ function BlogPage({ children, className }) {
             </div>
           </Link>
           <div className="flex m-auto justify-center gap-5 flex-wrap">
-            {suggest?.map((data) => (
+            {suggest.map((data) => (
               <div key={data.id} className="flex-none px-1 sm:px-0">
-                <SuggestBlogCard data={data} />
+                <SuggestBlogCard data={data} scrollToTop={scrollToTop} setData={setData} />
               </div>
             ))}
           </div>
           <div className="py-4 w-full grid grid-flow-col">
-            <Button className="text-center bg-green-400 m-auto"><CloudDownload />show more blogs</Button>
+            <Link to={"/blog"} className="m-auto">
+              <Button className="text-center bg-green-400"><CloudDownload />show more blogs</Button>
+            </Link>
           </div>
         </div>
       </div>

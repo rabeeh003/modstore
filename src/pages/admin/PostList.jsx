@@ -18,17 +18,17 @@ function PostList() {
   useEffect(() => {
     console.log("start to fetch data ");
     Axios.get(BaseUrl + "applications/").then((res) => {
-      console.log("apps", res.data)
-      setApps(res.data)
-      const and = filterMethod(res.data, "android")
-      const win = filterMethod(res.data, "windows")
+      console.log("apps", res.data.results)
+      setApps(res.data.results)
+      const and = filterMethod(res.data.results, "android")
+      const win = filterMethod(res.data.results, "windows")
       setWindows(win)
       setAndroid(and)
     }).catch((err) => console.log(err))
     Axios.get(BaseUrl+ "blog/")
       .then(res=>{
         console.log(res.data)
-        setBlog(res.data)
+        setBlog(res.data.results)
       })
       .catch(err=>console.error(err))
   }, [refech])

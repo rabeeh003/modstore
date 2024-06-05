@@ -1,12 +1,14 @@
-import { Search, ShieldAlert } from 'lucide-react';
+import { LoaderIcon, Search, ShieldAlert } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import AppCart from './components/AppCart';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Input, Button } from '@nextui-org/react';
+import { BaseUrl } from '../admin/utils/constData';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 function Category() {
-    const { category } = useParams();  // Access category from the URL
+    const { category } = useParams();
 
     const [isLoading, setIsLoading] = useState(true);
     const [apps, setApps] = useState([]);
@@ -14,8 +16,9 @@ function Category() {
     const [filteredApps, setFilteredApps] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [down, setDown] = useState(false);
-
-    const validCategories = ['android', 'windows']; // Define valid categories
+    const [next, setNext] = useState(null);
+    const [filterNext, setFilterNext] = useState(null)
+    const validCategories = ['android', 'windows'];
 
     useEffect(() => {
         if (!validCategories.includes(category.toLowerCase())) {
@@ -26,10 +29,11 @@ function Category() {
 
         setIsLoading(true);
         console.log("Start to fetch data ");
-        axios.get("http://127.0.0.1:8000/apps/")
+        axios.get(BaseUrl + `apps?category=${category.toLowerCase()}`)
             .then((res) => {
                 console.log("apps", res.data);
-                setApps(res.data);
+                setCrApps(res.data.results);
+                setNext(res.data.next);
                 setIsLoading(false);
             })
             .catch((err) => {
@@ -39,26 +43,58 @@ function Category() {
             });
     }, [category]);
 
-    useEffect(() => {
-        if (category.toLowerCase() === 'android') {
-            const and = apps.filter((data) => data.category.toLowerCase() === 'android');
-            setCrApps(and);
-        } else if (category.toLowerCase() === 'windows') {
-            const win = apps.filter((data) => data.category.toLowerCase() === 'windows');
-            setCrApps(win);
-        }
-    }, [apps, category]);
+    const moreData = () => {
+        if (!next) return;
+        axios.get(next)
+            .then((res) => {
+                setCrApps((prev) => [...prev, ...res.data.results]);
+                setNext(res.data.next);
+            })
+            .catch((err) => console.error(err));
+    };
 
-    useEffect(() => {
-        if (searchQuery) {
-            const filtered = crApps.filter((app) =>
-                app.name.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-            setFilteredApps(filtered);
-        } else {
-            setFilteredApps(crApps);
-        }
-    }, [searchQuery, crApps]);
+    const filterMoreData = () => {
+        if (!filterNext) return;
+        axios.get(filterNext)
+            .then((res) => {
+                setFilteredApps((prev) => [...prev, ...res.data.results]);
+                setFilterNext(res.data.next);
+            })
+            .catch((err) => console.error(err));
+    };
+
+    // useEffect(() => {
+    //     if (searchQuery) {
+    //         const filtered = crApps.filter((app) =>
+    //             app.name.toLowerCase().includes(searchQuery.toLowerCase())
+    //         );
+    //         setFilteredApps(filtered);
+    //     } else {
+    //         setFilteredApps(crApps);
+    //     }
+    // }, [searchQuery, crApps]);
+
+    const filtering = () => {
+        console.log("searching to backend");
+        const params = new URLSearchParams();
+        if (category) params.append('category', category);
+        // if (labels) labels.forEach(label => params.append('labels', label));
+        if (searchQuery) params.append('search', searchQuery);
+        // if (searchQuery) params.append('labels', 2);
+        // setSearchErr('')
+        axios.get(`http://127.0.0.1:8000/apps/?${params.toString()}`)
+            .then((res) => {
+                // console.log('Filtered Apps:', res.data)
+                // if (res.data.results.length == 0) {
+                //     // setSearchErr("sorry data not fond !")                    
+                // }else{
+                //     // setSearchErr('')
+                // }
+                setFilteredApps(res.data.results)
+
+            })
+            .catch(err => console.log(" err ", err))
+    }
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -79,27 +115,64 @@ function Category() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         clearable
                     />
-                    <Search className='ml-2' />
+                    <Search onClick={() => filtering()} className='ml-2' />
                 </div>
             </div>
             {crApps.length > 0 ? (
-
                 <>
-                    {filteredApps.length > 0 ? (
-                        <div className='pt-3 grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-                            {filteredApps.map((item, index) => (
-                                <Link key={index} to={`/apps/${item.id}`} state={{ appData: item }} className='max-w-[180px] flex-none' >
-                                    <AppCart key={index} item={item} />
-                                </Link>
-                            ))}
-                        </div>
+                    {filteredApps  && searchQuery  ? (
+                        <>
+                            {filteredApps.length > 0 ? (
+                                <InfiniteScroll
+                                    dataLength={filteredApps.length}
+                                    next={filterMoreData}
+                                    hasMore={!!filterNext}
+                                    loader={<div className='text-center'><LoaderIcon /> Loading...</div>}
+                                    endMessage={
+                                        <div className='text-center py-3'>
+                                            <b>Yay! You have seen it all</b>
+                                        </div>
+                                    }
+                                >
+                                    <div className='pt-3 grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+                                        {filteredApps.map((item, index) => (
+                                            <Link key={index} to={`/apps/${item.id}`} state={{ appData: item }} className='max-w-[180px] flex-none' >
+                                                <AppCart key={index} item={item} />
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </InfiniteScroll>
+                            ) : (
+                                <div className='flex flex-col justify-center h-[80vh] items-center'>
+                                    <div className='flex justify-center pb-5'>
+                                        <ShieldAlert />
+                                        <span className='px-2'>oops!. "{searchQuery}" data not found.</span>
+                                    </div>
+                                </div>
+                            )}
+                        </>
                     ) : (
-                        <div className='flex flex-col justify-center h-[80vh] items-center'>
-                            <div className='flex justify-center pb-5'>
-                                <ShieldAlert />
-                                <span className='px-2'>oops!. "{searchQuery}" data not found.</span>
-                            </div>
-                        </div>
+                        <>
+                            <InfiniteScroll
+                                dataLength={crApps.length}
+                                next={moreData}
+                                hasMore={!!next}
+                                loader={<div className='text-center'><LoaderIcon /> Loading...</div>}
+                                endMessage={
+                                    <div className='text-center py-3'>
+                                        <p>Yay! You have seen it all</p>
+                                    </div>
+                                }
+                            >
+                                <div className='pt-3 grid gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+                                    {crApps.map((item, index) => (
+                                        <Link key={index} to={`/apps/${item.id}`} state={{ appData: item }} className='max-w-[180px] flex-none' >
+                                            <AppCart key={index} item={item} />
+                                        </Link>
+                                    ))}
+                                </div>
+                            </InfiniteScroll>
+                        </>
                     )}
                 </>
             ) : (
@@ -112,8 +185,9 @@ function Category() {
                         <Button variant='shadow' className='bg-green-500'>Home</Button>
                     </Link>
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
 

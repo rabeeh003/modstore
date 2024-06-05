@@ -2,12 +2,19 @@ import { Card, CardBody, Image } from '@nextui-org/react'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-function SuggestBlogCard({data}) {
+function SuggestBlogCard({data, setData, scrollToTop}) {
     const navigate = useNavigate()
+    const navi = ()=>{
+        if (setData) {
+            setData(data)
+            scrollToTop()
+        }
+        navigate(`/blog/${data.id}`, {state:{data:data}})
+    }
     return (
         <div>
             <article className='max-w-[90vw] w-[500px] sm:max-w-[300px] m-auto'>
-                <Card shadow="sm" className='w-full h-full' isPressable onPress={() => navigate(`/blog/${data.id}`, {state:{data:data}})}>
+                <Card shadow="sm" className='w-full h-full' isPressable onPress={navi}>
                     <CardBody className="overflow-visible p-0">
                         <div className='m-auto p-4 w-full'>
                             <Image

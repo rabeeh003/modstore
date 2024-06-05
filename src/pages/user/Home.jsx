@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import BlogCard from './components/BlogCard';
 import { BaseUrl } from '../admin/utils/constData';
 import { ChevronRight } from 'lucide-react';
+// import { error } from 'jodit/types/core/helpers';
 
 function Home() {
     const [isLoading, setIsLoading] = useState(true);
@@ -20,17 +21,19 @@ function Home() {
     const [windows, setWindows] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [blog, setBlog] = useState([]);
+    const [filteredApps, setFilteredApps] = useState([])
+    const [searchErr, setSearchErr] = useState('')
 
     useEffect(() => {
         setIsLoading(true);
         console.log("Start to fetch data");
         axios.get(BaseUrl + "labels/")
-            .then((res) => setLabels(res.data))
+            .then((res) => setLabels(res.data.results))
             .catch((err) => setDown(true));
         axios.get(BaseUrl + "apps/")
             .then((res) => {
                 console.log("apps", res.data);
-                setApps(res.data);
+                setApps(res.data.results);
                 setIsLoading(false);
             })
             .catch((err) => {
@@ -38,10 +41,10 @@ function Home() {
                 setDown(true);
                 setIsLoading(false);
             });
-        axios.get(BaseUrl + "blog/")
+        axios.get(BaseUrl + "blog/?length=6")
             .then((res) => {
                 console.log("blog", res.data);
-                setBlog(res.data);
+                setBlog(res.data.results);
                 setIsLoading(false);
             })
             .catch((err) => {
@@ -58,9 +61,31 @@ function Home() {
         setAndroid(and);
     }, [apps]);
 
-    const filteredApps = apps.filter((app) =>
-        app.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // const filteredApps = apps.filter((app) =>
+    //     app.name.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
+
+    const filtering = () => {
+        console.log("searching to backend");
+        const params = new URLSearchParams();
+        // if (category) params.append('category', category);
+        // if (labels) labels.forEach(label => params.append('labels', label));
+        if (searchQuery) params.append('search', searchQuery);
+        // if (searchQuery) params.append('labels', 2);
+        setSearchErr('')
+        axios.get(`http://127.0.0.1:8000/apps/?${params.toString()}`)
+            .then((res) => {
+                console.log('Filtered Apps:', res.data)
+                if (res.data.results.length == 0) {
+                    setSearchErr("sorry data not fond !")
+                } else {
+                    setSearchErr('')
+                }
+                setFilteredApps(res.data.results)
+
+            })
+            .catch(err => console.log(" err ", err))
+    }
 
     return (
         <div>
@@ -72,26 +97,29 @@ function Home() {
                 <>
                     {!isDown ? (
                         <div>
-                            <Banner searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+                            <Banner searchQuery={searchQuery} filtering={filtering} setSearchQuery={setSearchQuery} />
                             <div className='container mx-auto px-5 sm:px-10 mt-4'>
-                                {searchQuery ? (
-                                    <div className='pt-3 grid gap-4 pb-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
-                                        {filteredApps.length > 0 ? (
-                                            filteredApps.map((item, index) => (
-                                                <Link key={index} to={`/apps/${item.id}`} state={{ appData: item }} className='max-w-[180px] flex-none'>
-                                                    <AppCart key={index} item={item} />
-                                                </Link>
-                                            ))
-                                        ) : (
-                                            <div>No results found for "{searchQuery}"</div>
-                                        )}
-                                    </div>
+                                {searchQuery && filteredApps ? (
+                                    <>
+                                        <h2 className='text-2xl'>Search result :</h2>
+                                        <div className='pt-3 grid gap-4 pb-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+                                            {filteredApps.length > 0 ? (
+                                                filteredApps.map((item, index) => (
+                                                    <Link key={index} to={`/apps/${item.id}`} state={{ appData: item }} className='max-w-[180px] flex-none'>
+                                                        <AppCart key={index} item={item} />
+                                                    </Link>
+                                                ))
+                                            ) : (
+                                                <div>{searchErr}</div>
+                                            )}
+                                        </div>
+                                    </>
                                 ) : (
                                     <>
                                         {android.length > 0 && (
                                             <>
                                                 <AppSlider list={android} title={'Android mods'} idd={'android'} route={'/android'} />
-                                                <div className='flex flex-wrap m-auto justify-between'>
+                                                {/* <div className='flex flex-wrap m-auto justify-between'>
                                                     <AvatarComponent title='Games' />
                                                     <AvatarComponent />
                                                     <div className='hidden md:flex justify-between'>
@@ -106,13 +134,13 @@ function Home() {
                                                     <div className='hidden lg:flex justify-between'>
                                                         <AvatarComponent />
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </>
                                         )}
                                         {windows.length > 0 && (
                                             <>
                                                 <AppSlider list={windows} title={'Windows mods'} idd={"windo"} route={'/windows'} />
-                                                <div className='flex flex-wrap m-auto justify-between'>
+                                                {/* <div className='flex flex-wrap m-auto justify-between'>
                                                     <AvatarComponent title='Games' />
                                                     <AvatarComponent />
                                                     <div className='hidden md:flex justify-between'>
@@ -127,7 +155,7 @@ function Home() {
                                                     <div className='hidden lg:flex justify-between'>
                                                         <AvatarComponent />
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </>
                                         )}
                                         <div className='container m-auto'>

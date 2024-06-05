@@ -7,7 +7,7 @@ import Axios from "../utils/axios.jsx";
 import { BaseUrl } from "../utils/constData.jsx";
 import ViewPost from "./post/ViewPost.jsx";
 
-export default function ParentComponent({data, setRefech}) {
+export default function ParentComponent({ data, setRefech }) {
     const [editOpen, setEditOpen] = useState(false);
     const [viewOpen, setViewOpen] = useState(false);
 
@@ -19,11 +19,11 @@ export default function ParentComponent({data, setRefech}) {
         setEditOpen(false);
     };
 
-    const deleteItem = ()=>{
-        Axios.delete(BaseUrl+`applications/${data.id}/`).then((res)=>{
-            console.log("res of delete :"+res);
-            setRefech((pre)=>pre++)
-        }).catch((err)=>console.error(err))
+    const deleteItem = () => {
+        Axios.delete(BaseUrl + `applications/${data.id}/`).then((res) => {
+            console.log("res of delete :" + res);
+            setRefech((pre) => pre++)
+        }).catch((err) => console.error(err))
     }
 
     return (
@@ -33,13 +33,16 @@ export default function ParentComponent({data, setRefech}) {
                     <EllipsisVertical />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Action event example">
-                    <DropdownItem key="view" onClick={()=>setViewOpen(true)}>View</DropdownItem>
+                    <DropdownItem key="view" onClick={() => setViewOpen(true)}>View</DropdownItem>
                     <DropdownItem key="edit" onClick={handleEditClick}>Edit</DropdownItem>
                     <DropdownItem key="delete" onClick={deleteItem}>Delete</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
             <UpdatePost name="Edit app" isOpen={editOpen} onClose={handleCloseEdit} data={data} setRefech={setRefech} />
-            <ViewPost isOpen={viewOpen} onClose={()=>setViewOpen(false)} data={data} />
+            <ViewPost isOpen={viewOpen} onClose={() => {
+                setRefech((pre) => pre++)
+                setViewOpen(false)
+            }} data={data} />
         </>
     );
 }

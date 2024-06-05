@@ -8,13 +8,15 @@ import { BaseUrl } from "../../utils/constData";
 import Notification, { notify } from "../../utils/Notification";
 import CreateFileInput from "../CreateFileInput";
 
-function CreatePost({ isOpen, onClose, name, data,setRefech }) {
+function CreatePost({ isOpen, onClose, name, data, setRefech }) {
     // if (!isOpen) return null;
 
 
     const [appName, setAppName] = useState("");
     const [category, setCategory] = useState("");
     const [icon, setIcon] = useState(null);
+    const [dtype, setDType] = useState(true); // true is download file, false is download link.
+    const [download, setDownload] = useState("");
     const [description, setDescription] = useState("");
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [groupSelected, setGroupSelected] = useState([]);
@@ -27,20 +29,17 @@ function CreatePost({ isOpen, onClose, name, data,setRefech }) {
         setIcon(null);
     };
 
-    useEffect(() => {
-        if (data) {
-            setAppName(data.appName || "");
-            setCategory(data.category || "");
-            setDescription(data.description || "");
-            setGroupSelected(data.labels || []);
-        }
-    }, [data]);
-
     const create = () => {
         const formData = new FormData();
         formData.append("name", appName);
         formData.append("category", category);
+        formData.append("download",download);
 
+        if (dtype == true) {
+            formData.append("dtype",true);
+        } else if (dtype == false) {
+            formData.append("dtype",false);
+        }
         if (icon) {
             formData.append("icon", icon);
         }
@@ -62,7 +61,6 @@ function CreatePost({ isOpen, onClose, name, data,setRefech }) {
         })
             .then((response) => {
                 notify('s', "Post created")
-                setRefech((pre)=>pre++)
                 console.log(response.data);
                 onClose()
             })
@@ -74,7 +72,7 @@ function CreatePost({ isOpen, onClose, name, data,setRefech }) {
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} isDismissable={false} size="xl" className="modal-overlay scrollbar-hide scroll-smooth" scrollBehavior="inside">
-            <Notification/>
+            <Notification />
             <ModalContent>
                 {(onClose) => (
                     <>
@@ -131,6 +129,24 @@ function CreatePost({ isOpen, onClose, name, data,setRefech }) {
                                             onChange={handleIconChange}
                                         />
                                     )}
+                                </div>
+                                <div>
+                                    <Textarea label="Download file / page link" description="Add download file path or page link." value={download} onChange={(e) => setDownload(e.target.value)}></Textarea>
+                                </div>
+                                <div className="sm:flex gap-2 justify-between">
+                                    <Select
+                                        label="Select download type"
+                                        className="w-full"
+                                        description="Select the type of link."
+                                        onChange={(e) => setDType(e.target.value)}
+                                    >
+                                        <SelectItem key="pl" value={true}>
+                                            File link
+                                        </SelectItem>
+                                        <SelectItem key="fl" value={false}>
+                                            Page link
+                                        </SelectItem>
+                                    </Select>
                                 </div>
                                 <div>
                                     <Textarea label="Description" value={description} onChange={(e) => setDescription(e.target.value)}></Textarea>

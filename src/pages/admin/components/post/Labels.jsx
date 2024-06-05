@@ -12,7 +12,7 @@ export default function Labels({ groupSelected, setGroupSelected }) {
     useEffect(() => {
         Axios.get(BaseUrl + 'labels/').then((res) => {
             console.log("labels : ", res.data);
-            setLabels(res.data)
+            setLabels(res.data.results)
         })
     }, [addLabels])
 

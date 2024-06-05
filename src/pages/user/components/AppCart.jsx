@@ -7,7 +7,7 @@ function AppCart({ item }) {
     const navigate = useNavigate()
     return (
         <div>
-            <Card shadow="sm" className='min-w-[150px]' isPressable onPress={() => navigate(`apps/${item.id}`, { state: { appData: item } })}>
+            <Card shadow="sm" className='min-w-[150px]' isPressable onPress={() => navigate(`/apps/${item.id}`, { state: { appData: item } })}>
                 <CardBody className="overflow-visible p-0">
                     <div className='m-auto p-4'>
                         <Image
@@ -22,10 +22,10 @@ function AppCart({ item }) {
                             <b className='capitalize text-md md:text-lg text-wrap '>{item?.name}</b>
                             {/* <p className="text-default-500">{item.price}</p> */}
                         </div>
-                        <div>
+                        <div className='truncate overflow-hidden text-ellipsis h-7 text-wrap'>
                             {
-                                item.labels.map((data)=>(
-                                    <p>{data.name}</p>
+                                item?.labels?.map((data)=>(
+                                    <span key={data.id} className='pr-2'>{data.name}</span>
                                 ))
                             }
                         </div>
