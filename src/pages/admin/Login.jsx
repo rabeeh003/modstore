@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setAdmin } from '../../redux/Admin'
 import { useNavigate } from 'react-router-dom'
+import { BaseUrl } from './utils/constData'
 
 function Login() {
     const dispatch = useDispatch()
@@ -14,7 +15,7 @@ function Login() {
     const [err, setErr] = useState('')
 
     const login = () => {
-        axios.post("http://127.0.0.1:8000/api/token/",
+        axios.post(BaseUrl+"token/",
             {
                 "username": username,
                 "password": password

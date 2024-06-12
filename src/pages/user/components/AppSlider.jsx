@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ArrowLeft, ArrowRight, ChevronRight, MoveRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AppCart from './AppCart';
 

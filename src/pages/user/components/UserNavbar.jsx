@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Link, Button } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem } from "@nextui-org/react";
 import { Switch } from "@nextui-org/react";
 import { MoonStar, SunMoon } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,7 +29,7 @@ function UserNavbar() {
           />
           <NavbarBrand>
             {/* <AcmeLogo /> */}
-            <NavLink to={'/'} className="font-bold text-inherit">Mod`Store</NavLink>
+            <NavLink to={'/'} className="font-bold text-inherit">Modapps</NavLink>
           </NavbarBrand>
         </NavbarContent>
 

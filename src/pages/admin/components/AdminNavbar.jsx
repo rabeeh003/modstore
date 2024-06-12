@@ -4,7 +4,7 @@ import { Switch } from "@nextui-org/react";
 import { MoonStar, Plus, SunMoon } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLight, setDark } from '../../../redux/Them.jsx';
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import CreatePost from './post/CreatePost.jsx';
 import { setCleanAdmin } from '../../../redux/Admin.jsx';
@@ -40,7 +40,7 @@ function AdminNavbar() {
             className="sm:hidden"
           />
           <NavbarBrand>
-            <NavLink to={'/admin'} className="font-bold text-inherit">Mod`Store admin</NavLink>
+            <NavLink to={'/admin'} className="font-bold text-inherit">Modapps Admin</NavLink>
           </NavbarBrand>
         </NavbarContent>
 
@@ -68,7 +68,7 @@ function AdminNavbar() {
             </DropdownTrigger>
             <DropdownMenu variant="faded" aria-label="Static Actions">
               <DropdownItem key="android" onClick={handleShowAndroid}>Android</DropdownItem>
-              <DropdownItem key="windows">Windows</DropdownItem>
+              <DropdownItem key="windows" onClick={handleShowAndroid}>Windows</DropdownItem>
               <DropdownItem key="blog" onClick={()=>navigate("create-blog")}>Blog</DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -81,14 +81,11 @@ function AdminNavbar() {
             endContent={<MoonStar />}
           >
           </Switch>
-          {/* <NavbarItem className="hidden lg:flex">
-            <Link href="#">Login</Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Button as={Link} color="primary" href="#" variant="flat">
-              Sign Up
+          <NavbarItem className='hidden sm:flex'>
+            <Button onClick={()=>dispatch(setCleanAdmin())} color="success" href="#" variant="flat">
+              <span className='text-red-500' >Logout</span>
             </Button>
-          </NavbarItem> */}
+          </NavbarItem>
         </NavbarContent>
         <NavbarMenu className='bg-black-400 '>
           <NavLink to={'/admin'}>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Spinner } from '@nextui-org/react';
-import AvatarComponent from './components/AvatarComponent';
 import AppSlider from './components/AppSlider';
 import Banner from './components/Banner';
 import axios from 'axios';
@@ -73,7 +72,7 @@ function Home() {
         if (searchQuery) params.append('search', searchQuery);
         // if (searchQuery) params.append('labels', 2);
         setSearchErr('')
-        axios.get(`http://127.0.0.1:8000/apps/?${params.toString()}`)
+        axios.get(BaseUrl+`apps/?${params.toString()}`)
             .then((res) => {
                 console.log('Filtered Apps:', res.data)
                 if (res.data.results.length == 0) {
@@ -167,15 +166,15 @@ function Home() {
                                             </Link>
                                             <div className='flex gap-2 flex-wrap justify-around flex-reverse'>
                                                 {blog.map((data) => (
-                                                    <div className='flex-none px-1 sm:px-0 w-full sm:max-w-[45%] lg:max-w-[30%]'>
+                                                    <div key={data.id} className='flex-none px-1 sm:px-0 w-full sm:max-w-[45%] lg:max-w-[30%]'>
                                                         <BlogCard data={data} />
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
-                                        <div class="w-full mt-4 rounded-t-2xl bg-black/5 p-4 text-center sticky">
+                                        <div className="w-full mt-4 rounded-t-2xl bg-black/5 p-4 text-center sticky">
                                             © 2024 Copyright:
-                                            <Link to="/"> Mod'store</Link>
+                                            <Link to="/"> Modapps</Link>
                                         </div>
                                     </>
                                 )}
