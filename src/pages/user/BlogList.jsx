@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Input } from '@nextui-org/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SuggestBlogCard from './components/SuggestBlogCard';
+import { BaseUrl } from '../admin/utils/constData';
 
 function BlogList() {
     const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +17,7 @@ function BlogList() {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get("http://127.0.0.1:8000/blog/")
+        axios.get(BaseUrl+"blog/")
             .then((res) => {
                 console.log("apps", res.data);
                 setApps(res.data.results);

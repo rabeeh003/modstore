@@ -82,7 +82,7 @@ function Category() {
         if (searchQuery) params.append('search', searchQuery);
         // if (searchQuery) params.append('labels', 2);
         // setSearchErr('')
-        axios.get(`http://127.0.0.1:8000/apps/?${params.toString()}`)
+        axios.get(BaseUrl+`apps/?${params.toString()}`)
             .then((res) => {
                 // console.log('Filtered Apps:', res.data)
                 // if (res.data.results.length == 0) {
