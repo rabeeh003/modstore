@@ -2,7 +2,7 @@ import { LoaderIcon, Search, ShieldAlert } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Input } from '@nextui-org/react';
+import { Input, Spinner } from '@nextui-org/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import SuggestBlogCard from './components/SuggestBlogCard';
 import { BaseUrl } from '../admin/utils/constData';
@@ -53,7 +53,11 @@ function BlogList() {
     }, [searchQuery, apps]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div className='flex justify-center h-screen'>
+                <Spinner color="success"></Spinner>
+            </div>
+        );
     }
 
     if (down) {
@@ -81,14 +85,14 @@ function BlogList() {
                     hasMore={!!next}
                     loader={<div className='text-center'><LoaderIcon /> Loading...</div>}
                     endMessage={
-                        <div className='text-center py-3'>
+                        <div className='text-center font-thin text-xs py-3'>
                             <b>Yay! You have seen it all</b>
                         </div>
                     }
                 >
                     <div className='pt-3 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
                         {filteredApps.map((data) => (
-                            <Link key={data.id} to={`/blog/${data.id}`}>
+                            <Link key={data.id} to={`/blog/${data.id}`} >
                                 <SuggestBlogCard data={data} />
                             </Link>
                         ))}

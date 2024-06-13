@@ -89,7 +89,7 @@ function Home() {
     return (
         <div>
             {isLoading ? (
-                <div className='flex justify-center'>
+                <div className='flex justify-center h-screen'>
                     <Spinner color="success"></Spinner>
                 </div>
             ) : (

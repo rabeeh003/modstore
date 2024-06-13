@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import AppCart from './components/AppCart';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Input, Button } from '@nextui-org/react';
+import { Input, Button, Spinner } from '@nextui-org/react';
 import { BaseUrl } from '../admin/utils/constData';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -11,7 +11,7 @@ function Category() {
     const { category } = useParams();
 
     const [isLoading, setIsLoading] = useState(true);
-    const [apps, setApps] = useState([]);
+    // const [apps, setApps] = useState([]);
     const [crApps, setCrApps] = useState([]);
     const [filteredApps, setFilteredApps] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -82,7 +82,7 @@ function Category() {
         if (searchQuery) params.append('search', searchQuery);
         // if (searchQuery) params.append('labels', 2);
         // setSearchErr('')
-        axios.get(BaseUrl+`apps/?${params.toString()}`)
+        axios.get(BaseUrl + `apps/?${params.toString()}`)
             .then((res) => {
                 // console.log('Filtered Apps:', res.data)
                 // if (res.data.results.length == 0) {
@@ -97,11 +97,19 @@ function Category() {
     }
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <div className='flex justify-center h-screen'>
+                <Spinner color="success"></Spinner>
+            </div>
+        );
     }
 
     if (down) {
-        return <div>Error loading data</div>;
+        return (
+            <div className='flex justify-center h-screen'>
+                <p className='text-center text-danger-400'>Somthing wrong</p>
+            </div>
+        );
     }
 
     return (
@@ -120,7 +128,7 @@ function Category() {
             </div>
             {crApps.length > 0 ? (
                 <>
-                    {filteredApps  && searchQuery  ? (
+                    {filteredApps && searchQuery ? (
                         <>
                             {filteredApps.length > 0 ? (
                                 <InfiniteScroll

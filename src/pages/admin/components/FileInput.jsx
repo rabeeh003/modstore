@@ -32,7 +32,7 @@ const FileInput = ({  selectedFilesUrl, setSelectedFilesUrl, idd }) => {
             submitData.append("application",idd)
             try {
                 console.log("start to update:");
-                Axios.post(BaseUrl+`/ref/img/`,submitData).then((res)=>{
+                Axios.post(BaseUrl+`ref/img/`,submitData).then((res)=>{
                     setSelectedFilesUrl((prevFiles) => [...prevFiles, res.data]);
                     console.log("image updated : ",res.data);
                 })

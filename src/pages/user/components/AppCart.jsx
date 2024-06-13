@@ -14,11 +14,11 @@ function AppCart({ item }) {
                             radius="lg"
                             width="100%"
                             alt={item?.name}
-                            className="w-full sm:w-[150px] object-cover h-[150px]  min-[350px]:w-[150px]"
+                            className="w-full sm:w-[100px] m-auto object-cover h-[100px]  min-[350px]:w-[100px]"
                             src={item?.icon}
                         />
-                        <div className='truncate overflow-hidden text-ellipsis h-16 pt-2'>
-                            <b className='capitalize text-md md:text-lg text-wrap '>{item?.name}</b>
+                        <div className='truncate overflow-hidden text-ellipsis h-14 pt-2'>
+                            <b className='capitalize text-sm md:text-md text-wrap '>{item?.name}</b>
                             {/* <p className="text-default-500">{item.price}</p> */}
                         </div>
                         <div className='truncate overflow-hidden text-ellipsis h-7 text-wrap'>

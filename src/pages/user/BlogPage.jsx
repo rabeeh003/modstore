@@ -17,28 +17,29 @@ function BlogPage({ children, className }) {
   const [data, setData] = useState(initialData || {});
   const [suggest, setSuggest] = useState(initialSuggest || []);
 
-  useEffect(() => {
-    if (!data) {
-      axios.get(`${BaseUrl}blog/get/${blogid}/`)
-        .then(res => setData(res.data))
-        .catch(err => console.error(err));
-    }
-    if (!initialSuggest) {
-      axios.get(`${BaseUrl}blog/?length=3`)
-        .then(res => setSuggest(res.data.results))
-        .catch(err => console.error(err));
-    }
-  }, [blogid, data, initialData, initialSuggest]);
-
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   };
-
-  // my initialization code is end
-
+  
+  useEffect(() => {
+    if (!data) {
+      axios.get(`${BaseUrl}blog/get/${blogid}/`)
+      .then(res => setData(res.data))
+      .catch(err => console.error(err));
+      }
+      if (!initialSuggest) {
+      axios.get(`${BaseUrl}blog/?length=3`)
+      .then(res => setSuggest(res.data.results))
+      .catch(err => console.error(err));
+      }
+      scrollToTop()
+      }, [blogid, data, initialData, initialSuggest]);
+      
+      // my initialization code is end
+      
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -158,7 +159,7 @@ function BlogPage({ children, className }) {
           <div className="flex m-auto justify-center gap-5 flex-wrap">
             {suggest.map((data) => (
               <div key={data.id} className="flex-none px-1 sm:px-0">
-                <SuggestBlogCard data={data} scrollToTop={scrollToTop} setData={setData} />
+                <SuggestBlogCard data={data} setData={setData} />
               </div>
             ))}
           </div>
