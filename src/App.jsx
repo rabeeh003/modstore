@@ -1,8 +1,10 @@
 import './App.css'
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import ReactGA from "react-ga"
+
 import UserNavbar from './pages/user/components/UserNavbar';
 import Home from './pages/user/Home';
-import { Navigate, Route, Routes } from 'react-router-dom';
 import PostPage from './pages/user/PostPage';
 import Category from './pages/user/Category';
 import AdminNavbar from './pages/admin/components/AdminNavbar';
@@ -13,6 +15,10 @@ import Login from './pages/admin/Login';
 import CreateBlog from './pages/admin/CreateBlog';
 import BlogPage from './pages/user/BlogPage';
 import BlogList from './pages/user/BlogList';
+
+// initializing ReactGA 
+const TRACKING_ID = 'G-MV1HM4ETNG'
+ReactGA.initialize(TRACKING_ID)
 
 function App() {
   const them = useSelector(state => state.them.currentThem)

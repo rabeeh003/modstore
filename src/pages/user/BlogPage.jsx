@@ -7,6 +7,7 @@ import axios from "axios";
 import { BaseUrl } from "../admin/utils/constData";
 import { ChevronRight, CloudDownload } from "lucide-react";
 import SuggestBlogCard from "./components/SuggestBlogCard";
+import ReactGA from 'react-ga'
 
 function BlogPage({ children, className }) {
   // my initialization code start
@@ -16,6 +17,11 @@ function BlogPage({ children, className }) {
   const initialSuggest = location.state?.suggest;
   const [data, setData] = useState(initialData || {});
   const [suggest, setSuggest] = useState(initialSuggest || []);
+
+  // ReactGA page views
+  useEffect(()=>{
+    ReactGA.pageview(window.location.pathname)
+  },[])
 
   const scrollToTop = () => {
     window.scrollTo({

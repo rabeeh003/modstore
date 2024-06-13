@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { CircularProgress } from '@nextui-org/react';
 import { BaseUrl } from '../admin/utils/constData';
+import ReactGA from 'react-ga'
 
 function PostPage() {
     const { appid } = useParams();
@@ -72,6 +73,29 @@ function PostPage() {
                 });
             }
         }, 1000);
+    };
+
+    const addDownloadCount = () => {
+        console.log("ReactGA counting");
+        ReactGA.event({
+            category: appData.name,
+            action: 'Apps Download',
+            label: appData.category,
+        })
+    }
+
+    const handleDownloadClick = () => {
+        addDownloadCount();
+        if (appData.dtype) {
+            const link = document.createElement('a');
+            link.href = appData.download;
+            link.setAttribute('download', ''); // Add download attribute for direct download
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } else {
+            window.open(appData.download, '_blank', 'noopener,noreferrer');
+        }
     };
 
     return (
@@ -161,19 +185,9 @@ function PostPage() {
                                     </div>
                                 ) : (
                                     <div className='w-full text-center'>
-                                        {appData.dtype ? (
-                                            <a download={appData.download} href={appData.download}>
-                                                <Button variant='flat' color="success">
-                                                    Download
-                                                </Button>
-                                            </a>
-                                        ) : (
-                                            <a href={appData.download} target="_blank" rel="noopener noreferrer">
-                                                <Button variant='flat' color="success">
-                                                    Link
-                                                </Button>
-                                            </a>
-                                        )}
+                                        <Button variant='flat' color="success" onClick={handleDownloadClick}>
+                                            {appData.dtype ? 'Download' : 'Link'}
+                                        </Button>
                                     </div>
                                 )}
                             </ModalBody>
