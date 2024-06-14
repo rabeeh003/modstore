@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Tabs, Tab, Card, CardBody, CardHeader, Avatar } from "@nextui-org/react";
+import { Tabs, Tab, Card, CardBody, CardHeader, Avatar, CardFooter } from "@nextui-org/react";
 import { AppWindow, EllipsisVertical, LayoutGrid, Rss } from 'lucide-react';
 import { BaseUrl } from './utils/constData';
 import Axios from './utils/axios';
@@ -17,7 +17,7 @@ function PostList() {
   const [refech, setRefech] = useState(0)
   useEffect(() => {
     console.log("start to fetch data ");
-    Axios.get(BaseUrl + "applications/").then((res) => {
+    Axios.get(BaseUrl + "apps/").then((res) => {
       console.log("apps", res.data.results)
       setApps(res.data.results)
       const and = filterMethod(res.data.results, "android")
@@ -25,12 +25,12 @@ function PostList() {
       setWindows(win)
       setAndroid(and)
     }).catch((err) => console.log(err))
-    Axios.get(BaseUrl+ "blog/")
-      .then(res=>{
+    Axios.get(BaseUrl + "blog/")
+      .then(res => {
         console.log(res.data)
         setBlog(res.data.results)
       })
-      .catch(err=>console.error(err))
+      .catch(err => console.error(err))
   }, [refech])
   function filterMethod(apps, type) {
     const data = apps.filter((data) => data.category == type)
@@ -50,18 +50,18 @@ function PostList() {
             }
           >
             <div className='fixed w-full max-h-[87vh] overflow-scroll scroll-smooth scrollbar-hide left-0'>
-              <div className="container m-auto gap-3 py-5 pb-8 flex flex-wrap">
+              <div className="container max-w-[1050px] m-auto flex flex-wrap gap-4 justify-center sm:justify-normal sm:px-5">
                 {android?.map((data, index) => (
-                  <div key={index} className='m-auto flex-none w-full px-4 md:max-w-[420px] '>
-                    <Card>
-                      <CardHeader className='flex justify-between'>
+                  <div key={index} className=''>
+                    <Card >
+                      <CardHeader className='flex p-3 justify-between flex-wrap'>
                         <Avatar src={data.icon} radius='lg' className="w-20 h-20 text-large" />
-                        <React.Suspense fallback={<>...</>}> 
-                          <ActionDrop data={data} setRefech={()=>setRefech()}/>
+                        <React.Suspense fallback={<>...</>}>
+                          <ActionDrop data={data} setRefech={() => setRefech()} />
                         </React.Suspense>
                       </CardHeader>
                       <CardBody>
-                        <span className='text-xl font-bold'>{data.name}</span>
+                        <span className='text-md font-sans font-semibold'>{data.name}</span>
                       </CardBody>
                     </Card>
                   </div>
@@ -79,18 +79,18 @@ function PostList() {
             }
           >
             <div className='fixed w-full max-h-[87vh] overflow-scroll scroll-smooth scrollbar-hide left-0'>
-              <div className="container m-auto gap-3 py-5 pb-8 flex flex-wrap">
+              <div className="container max-w-[1050px] m-auto flex flex-wrap gap-4 justify-center sm:justify-normal sm:px-5">
                 {windows?.map((data, index) => (
-                  <div key={index} className='m-auto flex-none w-full px-4 md:max-w-[420px] '>
+                  <div key={index} className=''>
                     <Card>
-                      <CardHeader className='flex justify-between'>
+                      <CardHeader className='flex p-3 justify-between flex-wrap'>
                         <Avatar src={data.icon} radius='lg' className="w-20 h-20 text-large" />
-                        <React.Suspense fallback={<>...</>}> 
-                          <ActionDrop data={data} setRefech={()=>setRefech()}/>
+                        <React.Suspense fallback={<>...</>}>
+                          <ActionDrop data={data} setRefech={() => setRefech()} />
                         </React.Suspense>
                       </CardHeader>
                       <CardBody>
-                        <span className='text-xl font-bold'>{data.name}</span>
+                        <span className='text-md font-sans font-semibold'>{data.name}</span>
                       </CardBody>
                     </Card>
                   </div>
@@ -108,26 +108,28 @@ function PostList() {
             }
           >
             <div className='fixed w-full max-h-[87vh] overflow-scroll scroll-smooth scrollbar-hide left-0'>
-              <div className="container m-auto gap-3 py-5 pb-8 flex flex-wrap">
+              <div className="container max-w-[1050px] m-auto flex flex-wrap gap-4 justify-center sm:justify-normal sm:px-5">
                 {blog?.map((data, index) => (
-                  <div key={index} className='m-auto flex-none w-full px-4 md:max-w-[420px] '>
-                    <Card>
-                      <CardHeader className='flex justify-between'>
-                        <Avatar src={data.image} radius='lg' className="w-20 h-20 text-large" />
-                        <React.Suspense fallback={<>...</>}> 
-                          <ActionDropBlog data={data} setRefech={()=>setRefech()}/>
-                        </React.Suspense>
+                  <div key={index} className=''>
+                    <Card className='max-w-[315px] w-[400px]'>
+                      <CardHeader className='flex justify-between p-3 flex-wrap'>
+                        <Avatar src={data.image} radius='lg' className="max-h-80 h-full w-full text-large" />
                       </CardHeader>
                       <CardBody>
-                        <span className='text-xl font-bold'>{data.head}</span>
+                        <span className='text-md font-sans h-7 overflow-clip font-semibold'>{data.head}</span>
                       </CardBody>
+                      <CardFooter className='flex justify-center'>
+                        <React.Suspense fallback={<>...</>}>
+                          <ActionDropBlog data={data} setRefech={() => setRefech()} />
+                        </React.Suspense>
+                      </CardFooter>
                     </Card>
                   </div>
                 ))}
               </div>
             </div>
           </Tab>
-          
+
         </Tabs>
       </div>
     </div>

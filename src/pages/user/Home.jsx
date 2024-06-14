@@ -182,8 +182,8 @@ function Home() {
                         </div>
                     ) : (
                         <div className='flex flex-col justify-center h-[70vh]'>
-                            <img src={serverDown} alt="server down" />
-                            <h3 className='text-center'>Sorry, server down</h3>
+                            <img src={serverDown} className='max-w-52 m-auto' alt="server down" />
+                            <h3 className='text-center'>Sorry, Network error</h3>
                         </div>
                     )}
                 </>

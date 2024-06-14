@@ -107,7 +107,7 @@ function Category() {
     if (down) {
         return (
             <div className='flex justify-center h-screen'>
-                <p className='text-center text-danger-400'>Somthing wrong</p>
+                <p className='text-center text-danger-400 m-auto'>Somthing wrong</p>
             </div>
         );
     }

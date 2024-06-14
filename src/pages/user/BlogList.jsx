@@ -61,7 +61,11 @@ function BlogList() {
     }
 
     if (down) {
-        return <div>Error loading data</div>;
+        return (
+            <div className='flex justify-center h-screen'>
+                <p className='text-center text-danger-400 m-auto'>Somthing wrong</p>
+            </div>
+        )
     }
 
     return (

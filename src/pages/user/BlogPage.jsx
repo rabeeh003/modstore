@@ -19,9 +19,9 @@ function BlogPage({ children, className }) {
   const [suggest, setSuggest] = useState(initialSuggest || []);
 
   // ReactGA page views
-  useEffect(()=>{
-    ReactGA.pageview(window.location.pathname)
-  },[])
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, [location]);
 
   const scrollToTop = () => {
     window.scrollTo({
