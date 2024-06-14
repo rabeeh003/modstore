@@ -1,7 +1,7 @@
 import './App.css'
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import ReactGA from "react-ga"
+import ReactGA from 'react-ga4';
 
 import UserNavbar from './pages/user/components/UserNavbar';
 import Home from './pages/user/Home';

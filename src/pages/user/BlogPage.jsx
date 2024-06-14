@@ -7,7 +7,7 @@ import axios from "axios";
 import { BaseUrl } from "../admin/utils/constData";
 import { ChevronRight, CloudDownload } from "lucide-react";
 import SuggestBlogCard from "./components/SuggestBlogCard";
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 
 function BlogPage({ children, className }) {
   // my initialization code start
@@ -20,7 +20,7 @@ function BlogPage({ children, className }) {
 
   // ReactGA page views
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    ReactGA.send({ hitType: "BlogView", page: location.pathname + location.search });
   }, [location]);
 
   const scrollToTop = () => {

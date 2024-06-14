@@ -5,7 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { CircularProgress } from '@nextui-org/react';
 import { BaseUrl } from '../admin/utils/constData';
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga4'
 
 function PostPage() {
     const { appid } = useParams();
