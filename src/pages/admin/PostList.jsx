@@ -17,7 +17,7 @@ function PostList() {
   const [refech, setRefech] = useState(0)
   useEffect(() => {
     console.log("start to fetch data ");
-    Axios.get(BaseUrl + "apps/").then((res) => {
+    Axios.get(BaseUrl + "applications/").then((res) => {
       console.log("apps", res.data.results)
       setApps(res.data.results)
       const and = filterMethod(res.data.results, "android")
@@ -50,7 +50,7 @@ function PostList() {
             }
           >
             <div className='fixed w-full max-h-[87vh] overflow-scroll scroll-smooth scrollbar-hide left-0'>
-              <div className="container max-w-[1050px] m-auto flex flex-wrap gap-4 justify-center sm:justify-normal sm:px-5">
+              <div className="my-4 pb-8 container max-w-[1050px] m-auto flex flex-wrap gap-4 justify-center sm:justify-normal sm:px-5">
                 {android?.map((data, index) => (
                   <div key={index} className=''>
                     <Card >
@@ -79,7 +79,7 @@ function PostList() {
             }
           >
             <div className='fixed w-full max-h-[87vh] overflow-scroll scroll-smooth scrollbar-hide left-0'>
-              <div className="container max-w-[1050px] m-auto flex flex-wrap gap-4 justify-center sm:justify-normal sm:px-5">
+              <div className="my-4 pb-8 container max-w-[1050px] m-auto flex flex-wrap gap-4 justify-center sm:justify-normal sm:px-5">
                 {windows?.map((data, index) => (
                   <div key={index} className=''>
                     <Card>
@@ -108,7 +108,7 @@ function PostList() {
             }
           >
             <div className='fixed w-full max-h-[87vh] overflow-scroll scroll-smooth scrollbar-hide left-0'>
-              <div className="container max-w-[1050px] m-auto flex flex-wrap gap-4 justify-center sm:justify-normal sm:px-5">
+              <div className="my-4 pb-8 container max-w-[1050px] m-auto flex flex-wrap gap-4 justify-center sm:justify-normal sm:px-5">
                 {blog?.map((data, index) => (
                   <div key={index} className=''>
                     <Card className='max-w-[315px] w-[400px]'>

@@ -5,12 +5,19 @@ import { BaseUrl } from "../../utils/constData";
 
 function ViewPost({ isOpen, onClose, data }) {
     const [labels, setLabels] = useState([])
+
     useEffect(() => {
-        Axios.get(BaseUrl + 'labels/').then((res) => {
-            console.log("labels : ", res.data);
-            setLabels(res.data.results)
-        })
-    }, [data]);
+        Axios.get(BaseUrl + 'labels/')
+            .then((res) => {
+                console.log("labels : ", res.data);
+                const filteredLabels = res.data.results.filter(label => data.labels.includes(label.id));
+                setLabels(filteredLabels);
+            })
+            .catch((error) => {
+                console.error("There was an error fetching the labels!", error);
+            });
+    }, [data, BaseUrl]);
+
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="xl" className="modal-overlay scrollbar-hide scroll-smooth" scrollBehavior="inside">
@@ -24,7 +31,7 @@ function ViewPost({ isOpen, onClose, data }) {
                             <div className="w-full">
                                 <Image width="100px" className="pb-3 m-auto" src={data.icon} />
                                 <div>
-                                    {data.labels?.map((label) => (
+                                    {labels?.map((label) => (
                                         <span key={label.id} className='text-sm border-2 py-1 font-medium md:py-0 px-2 mr-2 rounded-2xl'>{label.name}</span>
                                     ))}
                                 </div>

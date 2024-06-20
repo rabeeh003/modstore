@@ -6,7 +6,7 @@ function AppCart({ item }) {
     const navigate = useNavigate()
     return (
         <div>
-            <Card shadow="sm" className='min-w-[150px]' isPressable onPress={() => navigate(`/apps/${item.id}`, { state: { appData: item } })}>
+            <Card shadow="sm" className='min-w-[150px] max-w-[150px]' isPressable onPress={() => navigate(`/apps/${item.id}`, { state: { appData: item } })}>
                 <CardBody className="overflow-visible p-0">
                     <div className='m-auto p-4'>
                         <Image

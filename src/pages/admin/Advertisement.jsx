@@ -62,7 +62,7 @@ function Advertisement() {
     }
 
     return (
-        <div className='container m-auto py-10 px-3'>
+        <div className='container max-w-[1050px] m-auto py-10 px-3'>
             <span className='text-xl font-semibold'>Home Advertisement</span>
             <div className='pt-5 pb-10'>
                 <Textarea

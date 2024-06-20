@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useTransform, useScroll, useSpring } from "framer-motion";
 import { cn } from "../../utils/cn";
-import { Link, useLocation, useParams } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Button, Card, CardBody, CardFooter, Image, Tooltip } from "@nextui-org/react";
 import axios from "axios";
 import { BaseUrl } from "../admin/utils/constData";
-import { ChevronRight, CloudDownload } from "lucide-react";
+import { ChevronRight, CloudDownload, Copy, CornerUpLeft, SquareArrowOutUpLeft } from "lucide-react";
 import SuggestBlogCard from "./components/SuggestBlogCard";
 import ReactGA from 'react-ga4'
 
@@ -13,10 +13,12 @@ function BlogPage({ children, className }) {
   // my initialization code start
   const { blogid } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const initialData = location.state?.data;
   const initialSuggest = location.state?.suggest;
   const [data, setData] = useState(initialData || {});
   const [suggest, setSuggest] = useState(initialSuggest || []);
+  const [isCopied, setIsCopied] = useState(false);
 
   // ReactGA page views
   useEffect(() => {
@@ -29,23 +31,29 @@ function BlogPage({ children, className }) {
       behavior: 'smooth'
     });
   };
-  
+
   useEffect(() => {
     if (!data) {
       axios.get(`${BaseUrl}blog/get/${blogid}/`)
-      .then(res => setData(res.data))
-      .catch(err => console.error(err));
-      }
-      if (!initialSuggest) {
+        .then(res => setData(res.data))
+        .catch(err => console.error(err));
+    }
+    if (!initialSuggest) {
       axios.get(`${BaseUrl}blog/?length=3`)
-      .then(res => setSuggest(res.data.results))
-      .catch(err => console.error(err));
-      }
-      scrollToTop()
-      }, [blogid, data, initialData, initialSuggest]);
-      
-      // my initialization code is end
-      
+        .then(res => setSuggest(res.data.results))
+        .catch(err => console.error(err));
+    }
+    scrollToTop()
+  }, [blogid, data, initialData, initialSuggest]);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000); // Reset copied state after 2 seconds
+  };
+
+  // my initialization code is end
+
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -77,7 +85,24 @@ function BlogPage({ children, className }) {
   );
 
   return (
-    <div>
+    <div className="relative container max-w-[1050px] mx-auto px-5 sm:px-10 mt-3 pb-10">
+      <div className='sticky w-full flex justify-between mb-5'>
+        <Button className='min-w-10 p-0' color='' variant='flat' onClick={() => navigate(-1)}>
+          <CornerUpLeft />
+        </Button>
+        <div className='flex gap-3'>
+          <Tooltip placement='bottom-end' content={isCopied ? "Copied!" : "Copy URL"}>
+            <Button isIconOnly color="success" variant='flat' aria-label="Copy URL" onClick={handleCopy}>
+              <Copy />
+            </Button>
+          </Tooltip>
+          <Tooltip placement='bottom-end' content='Share with friends'>
+            <Button isIconOnly color="success" variant="flat" aria-label="Share">
+              <SquareArrowOutUpLeft />
+            </Button>
+          </Tooltip>
+        </div>
+      </div>
       <motion.div
         ref={ref}
         className={cn("relative w-full max-w-4xl mx-auto h-full", className)}

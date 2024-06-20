@@ -37,7 +37,7 @@ function AdminHome() {
     }]
   };
   return (
-    <div className='container m-auto py-4 px-3'>
+    <div className='container max-w-[1050px] m-auto py-4 px-3'>
       <span className='text-xl font-semibold'>Downloads</span>
       <div className='h-full max-h-[40vh] overflow-auto flex justify-center scrollbar-hide'>
         <Bar data={data} />

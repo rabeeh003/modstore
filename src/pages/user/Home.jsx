@@ -40,7 +40,7 @@ function Home() {
                 setDown(true);
                 setIsLoading(false);
             });
-        axios.get(BaseUrl + "blog/?length=6")
+        axios.get(BaseUrl + "blog/?length=3")
             .then((res) => {
                 console.log("blog", res.data);
                 setBlog(res.data.results);
@@ -158,8 +158,8 @@ function Home() {
                                             </>
                                         )}
                                         <div className='container m-auto'>
-                                            <Link to={''} >
-                                                <div className='flex py-6 align-middle justify-between'>
+                                            <Link to={'/blog'} >
+                                                <div className='flex flex-wrap py-6 align-middle justify-between'>
                                                     <span className='text-3xl font-bold'>Blogs</span>
                                                     <ChevronRight className='my-auto' />
                                                 </div>

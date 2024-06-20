@@ -19,6 +19,7 @@ function PostPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const [value, setValue] = useState(0);
+    const [sentences, setSentences] = useState()
 
     const initialData = location.state?.appData;
 
@@ -51,12 +52,25 @@ function PostPage() {
             }).catch(err => console.error(err));
     }, []);
 
+    useEffect(() => {
+        const splitContentIntoSentences = (content) => {
+            const regex = /[^.!?]*[.!?](?:\s|$)/g;
+            return content.match(regex) || [];
+        };
+
+        if (appData.description) {
+            const splitSentences = splitContentIntoSentences(appData.description);
+            setSentences(splitSentences);
+        }
+    }, [appData.description]);
+
     const handleCopy = () => {
         navigator.clipboard.writeText(window.location.href);
         setIsCopied(true);
         setTimeout(() => setIsCopied(false), 2000); // Reset copied state after 2 seconds
     };
     let interval;
+    
     const handleDownload = () => {
         // Simulate download completion
         console.log(("hjooo"));
@@ -142,7 +156,12 @@ function PostPage() {
                             <span key={label.id} className='text-sm border-2 py-1 font-medium md:py-0 px-2 mr-2 rounded-2xl'>{label.name}</span>
                         ))}
                     </div>
-                    <p className='sm:text-[18px] text-justify '>{appData.description}</p>
+                    {/* <span className=' sm:text-[18px] text-justify '>{appData.description}</span> */}
+                    <div>
+                        {sentences?.map((sentence, index) => (
+                            <p key={index}>{sentence.trim()}</p>
+                        ))}
+                    </div>
                 </div>
             </div>
             <div className='lg:pt-14'>
