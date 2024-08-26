@@ -21,13 +21,9 @@ function AppCart({ item }) {
                             <b className='capitalize text-sm md:text-md text-wrap '>{item?.name}</b>
                             {/* <p className="text-default-500">{item.price}</p> */}
                         </div>
-                        <div className='truncate overflow-hidden text-ellipsis h-7 text-wrap'>
-                            {
-                                item?.labels?.map((data)=>(
-                                    <span key={data.id} className='pr-2'>{data.name}</span>
-                                ))
-                            }
-                        </div>
+                        <p className='truncate overflow-hidden text-ellipsis h-7 text-wrap line-clamp-1'>
+                            {item.labels[0]?.name}
+                        </p>
                     </div>
                 </CardBody>
             </Card>

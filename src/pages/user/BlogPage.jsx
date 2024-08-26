@@ -8,6 +8,7 @@ import { BaseUrl } from "../admin/utils/constData";
 import { ChevronRight, CloudDownload, Copy, CornerUpLeft, SquareArrowOutUpLeft } from "lucide-react";
 import SuggestBlogCard from "./components/SuggestBlogCard";
 import ReactGA from 'react-ga4'
+import AdsComponent from "./components/AdsComponent";
 
 function BlogPage({ children, className }) {
   // my initialization code start
@@ -187,6 +188,7 @@ function BlogPage({ children, className }) {
               <ChevronRight className="my-auto" />
             </div>
           </Link>
+            <AdsComponent />
           <div className="flex m-auto justify-center gap-5 flex-wrap">
             {suggest.map((data) => (
               <div key={data.id} className="flex-none px-1 sm:px-0">

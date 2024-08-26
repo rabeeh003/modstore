@@ -6,6 +6,7 @@ import axios from 'axios';
 import { CircularProgress } from '@nextui-org/react';
 import { BaseUrl } from '../admin/utils/constData';
 import ReactGA from 'react-ga4'
+import AdsComponent from './components/AdsComponent';
 
 function PostPage() {
     const { appid } = useParams();
@@ -185,11 +186,12 @@ function PostPage() {
                             <ModalHeader className="flex flex-col gap-1 text-success-500">Download</ModalHeader>
                             <ModalBody>
                                 <div className='m-auto'>
-                                    {ads[0] && (
+                                    {/* {ads[0] && (
                                         <>
                                             <div dangerouslySetInnerHTML={{ __html: ads[0].code }}></div>
                                         </>
-                                    )}
+                                    )} */}
+                                    <AdsComponent/>
                                 </div>
                                 {value != 100 ? (
                                     <div className='m-auto'>
