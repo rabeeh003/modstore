@@ -188,7 +188,7 @@ function BlogPage({ children, className }) {
               <ChevronRight className="my-auto" />
             </div>
           </Link>
-            <AdsComponent />
+            <AdsComponent dataAdSlot="4281835525"/>
           <div className="flex m-auto justify-center gap-5 flex-wrap">
             {suggest.map((data) => (
               <div key={data.id} className="flex-none px-1 sm:px-0">

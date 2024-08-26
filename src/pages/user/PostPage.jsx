@@ -185,13 +185,14 @@ function PostPage() {
                         <>
                             <ModalHeader className="flex flex-col gap-1 text-success-500">Download</ModalHeader>
                             <ModalBody>
-                                <div className='m-auto'>
+                                <div className='m-auto w-[100%] min-h-[90px] '>
                                     {/* {ads[0] && (
                                         <>
                                             <div dangerouslySetInnerHTML={{ __html: ads[0].code }}></div>
                                         </>
                                     )} */}
-                                    <AdsComponent/>
+                                    
+                                    <AdsComponent dataAdSlot="4281835525"/>
                                 </div>
                                 {value != 100 ? (
                                     <div className='m-auto'>

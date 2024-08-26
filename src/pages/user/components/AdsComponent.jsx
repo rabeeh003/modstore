@@ -1,29 +1,25 @@
 import React, { useEffect } from 'react';
 
-const AdsComponent = () => {
-    // useEffect(() => {
-    //     (window.adsbygoogle = window.adsbygoogle || []).push({});
-    // }, []);
-
+const AdsComponent = (props) => {
+    const { dataAdSlot } = props;
     useEffect(() => {
         try {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
         }
         catch (e) {
-            console.log("google add windo push error");
-            
         }
-    },[]);
+    }, []);
 
     return (
-        <div>
+        <>
             <ins class="adsbygoogle"
-                style="display:block"
+                style={{ display: "block" }}
                 data-ad-client="ca-pub-1420590906206814"
-                data-ad-slot="4281835525"
+                data-ad-slot={dataAdSlot}
                 data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-        </div>
+                data-full-width-responsive="true">
+            </ins>
+        </>
     );
 };
 

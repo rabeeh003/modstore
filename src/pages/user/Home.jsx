@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import BlogCard from './components/BlogCard';
 import { BaseUrl } from '../admin/utils/constData';
 import { ChevronRight } from 'lucide-react';
+import AdsComponent from './components/AdsComponent';
 // import { error } from 'jodit/types/core/helpers';
 
 function Home() {
@@ -171,6 +172,9 @@ function Home() {
                                                     </div>
                                                 ))}
                                             </div>
+                                        </div>
+                                        <div className='w-full text-center mt-5'>
+                                        <AdsComponent dataAdSlot="4281835525"/>
                                         </div>
                                         <div className="w-full mt-4 rounded-t-2xl bg-black/5 p-4 text-center sticky">
                                             © 2024 Copyright:
